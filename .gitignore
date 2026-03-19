@@ -4,6 +4,9 @@
 # Quarto in docs
 docs/.quarto/
 
+# Claude Code
+.claude/
+
 # Data files
 data/*.csv
 data/*.xlsx
