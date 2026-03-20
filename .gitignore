@@ -17,6 +17,7 @@ README_files/
 # Data files
 data/*.csv
 data/*.xlsx
+data/commodity_trade_statistics_data.csv
 data_acquisition/raw/
 data_acquisition/processed/
 
