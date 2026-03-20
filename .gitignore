@@ -7,6 +7,13 @@ docs/.quarto/
 # Claude Code
 .claude/
 
+# VS Code
+.vscode/
+
+# Quarto generated output
+README.html
+README_files/
+
 # Data files
 data/*.csv
 data/*.xlsx
