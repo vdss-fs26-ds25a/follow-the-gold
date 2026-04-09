@@ -1,14 +1,3 @@
-"""
-Build the combined precious-metals trade + inflation dataset.
-
-Sources:
-  - UN Global Commodity Trade Statistics (commodity_trade_statistics_data.csv)
-  - World Bank Global Inflation Database  (Inflation-data.xlsx)
-
-Joined on country + year.
-Output: data/precious_metals_trade_inflation.csv
-"""
-
 import pathlib
 import pandas as pd
 
@@ -16,8 +5,6 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 RAW = ROOT / "data_acquisition"
 OUT = ROOT / "data_acquisition"
 OUT.mkdir(exist_ok=True)
-
-# ── 1. Load & filter trade data for precious metals ─────────────────────────
 
 PRECIOUS_KEYWORDS = [
     "Gold",
@@ -34,7 +21,6 @@ mask = trade_raw["commodity"].str.contains(
 )
 trade = trade_raw[mask].copy()
 
-# Classify each row into a broad metal group
 def classify_metal(commodity: str) -> str:
     c = commodity.lower()
     if "gold" in c:
@@ -59,7 +45,6 @@ trade = trade[
 
 print(f"Trade data filtered: {len(trade):,} rows, {trade['country'].nunique()} countries")
 
-# ── 2. Load inflation data (multiple CPI types) ────────────────────────────
 
 INFLATION_SHEETS = {
     "hcpi_a": "Headline CPI",
@@ -98,7 +83,6 @@ for sheet, label in INFLATION_SHEETS.items():
 inflation = pd.concat(inflation_frames, ignore_index=True)
 print(f"Inflation data: {len(inflation):,} rows")
 
-# ── 3. Harmonise country names ──────────────────────────────────────────────
 
 # Map common mismatches between the two datasets
 COUNTRY_MAP = {
@@ -140,7 +124,6 @@ inflation["country"] = inflation["country"].replace(
     {v: k for k, v in COUNTRY_MAP.items()}  # reverse: map inflation names → trade names
 )
 
-# ── 4. Join on country + year ───────────────────────────────────────────────
 
 # Pivot inflation so each type becomes its own column
 inflation_wide = inflation.pivot_table(
@@ -160,7 +143,6 @@ print(f"  Years: {combined['year'].min()} – {combined['year'].max()}")
 print(f"  Inflation match rate: {combined['Headline CPI'].notna().mean():.1%}")
 print(f"\nColumns: {combined.columns.tolist()}")
 
-# ── 5. Save ─────────────────────────────────────────────────────────────────
 
 out_path = OUT / "precious_metals_trade_inflation.csv"
 combined.to_csv(out_path, index=False)
