@@ -1,17 +1,17 @@
-import csv 
+import csv
 from pathlib import Path
 import pycountry
 
 
-BASE_DIR = Path(__file__).parent.parent  
-CSV_PATH = BASE_DIR / "data" / "processed" / "precious_metals_trade_inflation.csv"
+BASE_DIR = Path(__file__).parent
+CSV_PATH = BASE_DIR / "processed" / "precious_metals_trade_inflation.csv"
 
 # Ländernamen aus CSV laden, Duplikate entfernen
 with open(CSV_PATH) as f:
     reader = csv.DictReader(f)
-    laender = set() 
+    laender = set()
     for row in reader:
-        laender.add(row['country']) 
+        laender.add(row['country'])
 
 gefunden = {}
 nicht_gefunden = []
@@ -60,7 +60,7 @@ for name in laender:
         gefunden[name] = ergebnis.alpha_2
     else:
         # Schritt 2: Fuzzy Search als Backup
-        try: 
+        try:
             ergebnis = pycountry.countries.search_fuzzy(name)
             gefunden[name] = ergebnis[0].alpha_2
         except LookupError:
@@ -73,7 +73,7 @@ for name in laender:
 print("O Gefunden:", len(gefunden))
 print("X Nicht gefunden:", nicht_gefunden)
 
-OUTPUT_PATH = BASE_DIR / "data" / "processed" / "country_mapping.csv"
+OUTPUT_PATH = BASE_DIR / "processed" / "country_mapping.csv"
 
 # Ergebnis speichern
 with open(OUTPUT_PATH, "w", newline="") as f:
