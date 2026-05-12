@@ -333,6 +333,15 @@ wheels = [
 ]
 
 [[package]]
+name = "docutils"
+version = "0.22.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ae/b6/03bb70946330e88ffec97aefd3ea75ba575cb2e762061e0e62a213befee8/docutils-0.22.4.tar.gz", hash = "sha256:4db53b1fde9abecbb74d91230d32ab626d94f6badfc575d6db9194a49df29968", size = 2291750, upload-time = "2025-12-18T19:00:26.443Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/02/10/5da547df7a391dcde17f59520a231527b8571e6f46fc8efb02ccb370ab12/docutils-0.22.4-py3-none-any.whl", hash = "sha256:d0013f540772d1420576855455d050a2180186c91c15779301ac2ccb3eeb68de", size = 633196, upload-time = "2025-12-18T19:00:18.077Z" },
+]
+
+[[package]]
 name = "et-xmlfile"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -474,6 +483,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/6c/f4/9821fe373a4788bca43f00491b008f930de0b12a60ff631852d1f984b966/ImageHash-4.3.1.tar.gz", hash = "sha256:7038d1b7f9e0585beb3dd8c0a956f02b95a346c0b5f24a9e8cc03ebadaf0aa70", size = 296989, upload-time = "2022-09-28T08:44:39.943Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2d/b4/19a746a986c6e38595fa5947c028b1b8e287773dcad766e648897ad2a4cf/ImageHash-4.3.1-py2.py3-none-any.whl", hash = "sha256:5ad9a5cde14fe255745a8245677293ac0d67f09c330986a351f34b614ba62fb5", size = 296543, upload-time = "2022-09-28T08:44:37.573Z" },
+]
+
+[[package]]
+name = "importlib-metadata"
+version = "9.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "zipp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a9/01/15bb152d77b21318514a96f43af312635eb2500c96b55398d020c93d86ea/importlib_metadata-9.0.0.tar.gz", hash = "sha256:a4f57ab599e6a2e3016d7595cfd72eb4661a5106e787a95bcc90c7105b831efc", size = 56405, upload-time = "2026-03-20T06:42:56.999Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/38/3d/2d244233ac4f76e38533cfcb2991c9eb4c7bf688ae0a036d30725b8faafe/importlib_metadata-9.0.0-py3-none-any.whl", hash = "sha256:2d21d1cc5a017bd0559e36150c21c830ab1dc304dedd1b7ea85d20f45ef3edd7", size = 27789, upload-time = "2026-03-20T06:42:55.665Z" },
 ]
 
 [[package]]
@@ -1121,6 +1142,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pages"
+version = "0.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "docutils" },
+    { name = "importlib-metadata" },
+    { name = "piglet-templates" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fc/f2/c66db080b87ec42ebdcfedfaa4a2402bd68c99a5dbf660039493c0083dc6/pages-0.3.tar.gz", hash = "sha256:7c7c452c8a6dd67f3645beb54f94891ae053921ca8d4fb6b57b957375a1de1c9", size = 13800, upload-time = "2022-05-04T17:43:58.245Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4a/b9/f285e5bc7aa51276dac5e18e5f3fdfb832368cc5980f1d3cd1ff784d46bb/pages-0.3-py3-none-any.whl", hash = "sha256:df7ddd10f55765c28dd4a5112d847a8863f8a0e58da86642577388793c9c6bbb", size = 15684, upload-time = "2022-05-04T17:43:55.448Z" },
+]
+
+[[package]]
 name = "pandas"
 version = "2.3.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1200,6 +1235,20 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/6b/5c/8de0d369cb24a19a45c43af9627a38e83a46dca414ca287eac2724f21528/phik-0.12.5-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:87c990eee90c82a82cc4041321fbcddb5b156416c773de638cf1a6d267a7ef08", size = 665707, upload-time = "2025-07-17T13:54:20.341Z" },
     { url = "https://files.pythonhosted.org/packages/ea/44/50ebfa57d81d00a3125efb907c707b7bce9c79266dd354820888ab47359c/phik-0.12.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:576286429a0ea5cbdff13e133599f3f17717c9a680e85fb121e6b56401154516", size = 679710, upload-time = "2025-07-17T13:54:21.852Z" },
     { url = "https://files.pythonhosted.org/packages/80/98/0d1a58c5a69422f599a80b412dbfa580f7800f85e594b151456e78291085/phik-0.12.5-cp312-cp312-win_amd64.whl", hash = "sha256:5c4cc07d95008b150467364c6e9a9a5d75170df7360a4148816cccba741978a3", size = 676234, upload-time = "2025-07-17T13:54:23.084Z" },
+]
+
+[[package]]
+name = "piglet-templates"
+version = "1.3.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "attrs" },
+    { name = "markupsafe" },
+    { name = "pyparsing" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c7/c9/74b012f7338f8c3a368da93bb4f710783042f8e75598c7def66dd5080fd9/piglet_templates-1.3.3.tar.gz", hash = "sha256:2efbc65ab91024fe96ebfc93cdfe0772e9f72004bcee9cd34aef82a47d64867c", size = 51867, upload-time = "2026-02-02T21:08:50.391Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c4/8f/6cc4216f8a6870c5555b2617214304b82a2617048e27575dc987607f20af/piglet_templates-1.3.3-py3-none-any.whl", hash = "sha256:cd583bd398d52057ffd87f31c2ee29aef9042a72c44e1405c41a305a74f6f6dc", size = 67473, upload-time = "2026-02-02T21:08:49.096Z" },
 ]
 
 [[package]]
@@ -1618,6 +1667,7 @@ dependencies = [
     { name = "kagglehub" },
     { name = "matplotlib" },
     { name = "openpyxl" },
+    { name = "pages" },
     { name = "pandas" },
     { name = "plotly" },
     { name = "python-dotenv" },
@@ -1634,6 +1684,7 @@ requires-dist = [
     { name = "kagglehub", specifier = ">=1.0.0" },
     { name = "matplotlib", specifier = ">=3.10.6" },
     { name = "openpyxl", specifier = ">=3.1.5" },
+    { name = "pages", specifier = ">=0.3" },
     { name = "pandas", specifier = ">=2.3.2" },
     { name = "plotly", specifier = ">=6.6.0" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
@@ -2081,4 +2132,13 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/d3/18/0cae67670a12192989189946313703cf1c8f8ac76d3ebe9daa0597f96ac3/ydata-profiling-4.12.2.tar.gz", hash = "sha256:af9a6dcadf1a8cc73aa9e59c1d1f5f02c798bf5510817bf33e735ebf7c838c02", size = 316213, upload-time = "2025-01-20T16:42:41.826Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c5/c9/42ea4945edbd7fac9a8792aaa7647270a56e1a221b573b783957c4286184/ydata_profiling-4.12.2-py2.py3-none-any.whl", hash = "sha256:b3d2df646a9694dab221d52548ca4d5af0462d5f05996e215fdee35f1e45b391", size = 390928, upload-time = "2025-01-20T16:42:40.133Z" },
+]
+
+[[package]]
+name = "zipp"
+version = "3.23.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/30/21/093488dfc7cc8964ded15ab726fad40f25fd3d788fd741cc1c5a17d78ee8/zipp-3.23.1.tar.gz", hash = "sha256:32120e378d32cd9714ad503c1d024619063ec28aad2248dc6672ad13edfa5110", size = 25965, upload-time = "2026-04-13T23:21:46.6Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/08/8a/0861bec20485572fbddf3dfba2910e38fe249796cb73ecdeb74e07eeb8d3/zipp-3.23.1-py3-none-any.whl", hash = "sha256:0b3596c50a5c700c9cb40ba8d86d9f2cc4807e9bedb06bcdf7fac85633e444dc", size = 10378, upload-time = "2026-04-13T23:21:45.386Z" },
 ]
