@@ -1672,6 +1672,7 @@ dependencies = [
     { name = "plotly" },
     { name = "python-dotenv" },
     { name = "seaborn" },
+    { name = "statsmodels" },
     { name = "streamlit" },
     { name = "ydata-profiling" },
 ]
@@ -1689,6 +1690,7 @@ requires-dist = [
     { name = "plotly", specifier = ">=6.6.0" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "statsmodels", specifier = ">=0.14.5" },
     { name = "streamlit", specifier = ">=1.56.0" },
     { name = "ydata-profiling", specifier = ">=4.12.2" },
 ]

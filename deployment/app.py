@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import streamlit as st
 
 # basic page settings
@@ -132,9 +135,8 @@ elif page == "Ch. 2 — When Inflation Strikes":
     st.title("When Inflation Strikes")
     st.info("🚧 Vale's chapter — coming soon")
 elif page == "Ch. 3 — Gold vs. Silver vs. Platinum":
-    st.markdown('<div class="chapter-badge">Chapter 3</div>', unsafe_allow_html=True)
-    st.title("Gold vs. Silver vs. Platinum")
-    st.info("🚧 Aisosa's chapter — coming soon")
+    from pages.chapter3 import render
+    render()
 elif page == "Ch. 4 — The Swiss Connection":
     st.markdown('<div class="chapter-badge">Chapter 4</div>', unsafe_allow_html=True)
     st.title("The Swiss Connection")
