@@ -2,8 +2,8 @@ import pathlib
 import pandas as pd
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-RAW = ROOT / "data_acquisition"
-OUT = ROOT / "data_acquisition"
+RAW = ROOT / "data"
+OUT = ROOT / "data"
 OUT.mkdir(exist_ok=True)
 
 PRECIOUS_KEYWORDS = [

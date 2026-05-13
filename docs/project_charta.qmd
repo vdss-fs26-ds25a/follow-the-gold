@@ -1,11 +1,9 @@
 ---
-title: "Project Charter"
-subtitle: "Is Gold Really the Safe Haven? — Global Precious Metals Trade and Inflation"
+title: "Project Charta"
 format:
   html:
     toc: true
     toc-depth: 3
-    theme: simplex
 ---
 
 ## Context and Scope
