@@ -7,9 +7,13 @@ format:
     code-fold: true
 ---
 
-This project draws on two complementary data sources to investigate whether gold functions as an inflation hedge through the lens of physical trade flows. UN Comtrade data captures what flows where between countries, while the World Bank Global Inflation Database captures the inflationary environment the country was in at the time. Joining the two on country and year lets us test whether the trade patterns of gold (and its peers silver and platinum) respond to inflation in the way the popular narrative suggests.
+This project draws on two complementary data sources to investigate whether gold functions as an inflation hedge through the lens of physical trade flows. UN Comtrade data captures what flows where between countries, while the World Bank Global Inflation Database captures the inflationary environment the country was in at the time. Joining the two on country and year lets us answer the narrative's driving question — *when inflation hit in 2022, who actually bought the gold?* — at the country-year level.
 
 All raw inputs live under data/raw/. Reproducible build scripts in data/build_dataset.py and data/country_mapping.py generate the processed outputs in data/processed/. The original Kaggle UN Comtrade dump ends in 2016, which was a problem for our 2022–23 inflation-wave question — so we added a second, more recent UN Comtrade extract (1990–2025) midway through the project to extend the coverage.
+
+**Scope of the visible narrative.** The full processed table spans 1988–2024 and ~190 k rows. The scrollytelling app (`deployment/app.py`) restricts the visible analysis to **2017–2024**, because the pre-2017 half of the joined panel is missing major gold-import reporters (Switzerland, USA, UK, UAE — see Processed Dataset 1 below). The full 1988–2024 table remains in `data/processed/` for reproducibility and for any future analysis that does not depend on a complete global panel.
+
+**Metals in scope.** The processed dataset retains Gold, Silver, Platinum, and Other-precious flows. The current narrative is **gold-only**; silver and platinum are kept in the CSV because removing them would mean diverging the build pipeline from the data report, but they are not visible in the app. A future iteration that picks up the gold-vs-peers comparison can read them from the existing file without re-running the build.
 
 ## Raw data
 
@@ -101,7 +105,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-**Implications for visualisation.** The heavy right-skew in trade values forces a log scale on any "value vs. inflation" scatter (Chapter 2 of the story). The 11 % missing weights mean we will lead with trade value for cross-country comparisons and use weight only as a secondary lens for top reporters where it is dense.
+**Implications for visualisation.** The heavy right-skew in trade values shaped the design of Beat 2 of the narrative (the inflation-vs-gold-imports comparison). Rather than show a full-panel scatter with a log axis — which would have made small bars artificially legible and softened the visual disconfirmation — we hand-curate Beat 2 to ten named countries plotted on a linear axis. The 11 % missing weights mean we lead with trade value for cross-country comparisons and use weight only as a secondary lens for top reporters where it is dense.
 
 ### Details Dataset 2
 
@@ -200,7 +204,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-**Implications for visualisation.** The fat right tail justifies symmetric-log or clipped axes in the scatter plot of Chapter 2. The shallow pre-1990 coverage means most chart defaults should start at 1995 to keep the global panel balanced.
+**Implications for visualisation.** The fat right tail reinforces the design choice in Beat 2 of the narrative — curate to a small, named set of high- and low-inflation countries rather than scatter the full panel. The shallow pre-1990 coverage is one of the reasons the visible narrative is scoped to 2017–2024 (see "Scope of the visible narrative" above), where the global panel is dense and balanced.
 
 ## Processed Data
 
@@ -274,15 +278,15 @@ Key takeaways:
 - **No duplicates** on the natural key of country, year, metal group and flow — verified during build.
 - **Inflation join rate** is 85 % overall; the unmatched 15 % is overwhelmingly micro-states and territories (e.g. Cook Islands, Falkland Islands) absent from the World Bank database — acceptable for a global story.
 - **Country mismatch residual.** After the manual country mapping, ~14 small trade entities still have no inflation partner; they are kept in the dataset with a missing Headline CPI but excluded from inflation-conditional charts at render time.
-- **Outliers.** A handful of country-year cells exceed 10 bn USD in gold trade (Switzerland 2011–2014, UK 2010–2014). These are real refining-hub flows, not data errors, and they are central to the Swiss-connection chapter — we keep them and rely on log axes.
+- **Outliers.** A handful of country-year cells exceed 10 bn USD in gold trade (Switzerland 2011–2014, UK 2010–2014). These are real refining-hub flows, not data errors. They are *not* shown in the visible narrative (which is scoped to 2017–2024), but the same refining-hub pattern continues post-2017 with even larger values — Switzerland imports ~ 100 bn USD of gold per year in the 2020–2024 window — so the outliers are kept in the processed CSV for reproducibility.
 
-**Implications.** Coverage and quality are sufficient for all five planned chapters. The two design decisions forced by the data are: (i) log axes wherever trade value or inflation appears, and (ii) showing the *unmatched* country slice as a separate row count rather than letting it silently disappear.
+**Implications.** Coverage and quality are sufficient for all five beats of the scrollytelling narrative. The two design decisions actually forced by the data are: (i) **scope the visible narrative to 2017–2024**, because the pre-2017 panel is missing major reporters (Switzerland, USA, UK, UAE) and would yield a misleading aggregate; and (ii) **curate the inflation-vs-imports comparison (Beat 2) to ten named countries** rather than plot the full panel, because the curated set lands the disconfirmation that the beat exists to make.
 
 ### Details Processed Dataset 2
 
 **Content.** Country-year gold *imports* only, drawn from a BACI-style harmonisation of UN Comtrade for 2017–2024, joined with Headline CPI.
 
-**Reason it exists.** The Chapter 2 scatter plot (inflation vs. gold imports) is most compelling for the recent inflation spike. This narrower dataset gives a cleaner, smaller frame for that specific chart without dragging the full 1988–2024 panel into a single scatter.
+**Reason it exists.** This dataset was prepared for an earlier draft of the narrative that used an inflation-vs-gold-imports scatter. The current scrollytelling app does not use it — every visible beat is built from Processed Dataset 1 filtered to 2017–2024. The file is kept in `data/processed/` as a build artefact and as a smaller, pre-aggregated frame any future iteration can pick up from, but it is not referenced by `deployment/app.py`.
 
 **Processing.** Filter to Gold imports only on the 1990–2025 UN Comtrade extract, then left-join Headline CPI on country and year. Same naming-harmonisation as Dataset 1.
 
