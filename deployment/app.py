@@ -1,19 +1,30 @@
-
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
 
+
+# ──────────────────────────────────────────────────────────────────────────
+# Page config
+# ──────────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Is Gold Really the Safe Haven?",
+    page_title="Follow the Gold — Who actually bought it in 2022?",
     page_icon="🪙",
-    layout="wide",
+    layout="centered",
+    initial_sidebar_state="collapsed",
 )
 
-st.markdown("""
+
+# ──────────────────────────────────────────────────────────────────────────
+# Styling — dark editorial look, no sidebar, narrow reading column
+# ──────────────────────────────────────────────────────────────────────────
+st.markdown(
+    """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap');
+
+[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] {
+    display: none !important;
+}
 
 html, body, [data-testid="stAppViewContainer"] {
     background-color: #0b0d11 !important;
@@ -21,470 +32,447 @@ html, body, [data-testid="stAppViewContainer"] {
     font-family: 'DM Sans', sans-serif;
 }
 
-#MainMenu, footer, header {
-    visibility: hidden;
+#MainMenu, footer, header { visibility: hidden; }
+
+.block-container {
+    max-width: 760px;
+    padding-top: 3rem;
+    padding-bottom: 4rem;
 }
 
-h1, h2, h3 {
+h1 {
     font-family: 'Playfair Display', serif;
+    font-weight: 900;
     color: #d3b099;
+    font-size: 2.6rem;
+    line-height: 1.1;
 }
 
-hr {
-    border-color: #1c2029;
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #d3b099;
+    font-size: 1.9rem;
+    margin-top: 0.5rem;
 }
 
-.chapter-badge {
+.beat-tag {
     display: inline-block;
-    background: rgba(211,176,153,0.08);
-    color: #d3b099;
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(211,176,153,0.18);
+    color: #6f6f70;
     margin-bottom: 12px;
 }
 
-.metric-card {
-    background: linear-gradient(135deg, #13161f 0%, #1b1f29 100%);
-    border: 1px solid #262b36;
-    border-top: 3px solid #d3b099;
-    border-radius: 10px;
-    padding: 24px 20px;
-    text-align: center;
+.lede {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #c0ab9a;
+    margin: 1rem 0 1.8rem;
 }
 
-.metric-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #d3b099;
-    margin-bottom: 6px;
-}
+.lede b { color: #d3b099; }
 
-.metric-label {
+.caveat {
     font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
     color: #6f6f70;
-    margin-bottom: 8px;
-}
-
-.metric-insight {
-    font-size: 0.88rem;
-    color: #c0ab9a;
-    line-height: 1.5;
-}
-
-.insight-box {
-    background: rgba(211,176,153,0.04);
-    border-left: 3px solid #d3b099;
-    border-radius: 0 6px 6px 0;
-    padding: 14px 18px;
-    margin: 18px 0;
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: #c0ab9a;
-}
-
-.caveat-box {
-    background: rgba(111,111,112,0.06);
-    border-left: 3px solid #6f6f70;
-    border-radius: 0 6px 6px 0;
-    padding: 12px 16px;
-    margin: 14px 0;
-    font-size: 0.82rem;
-    line-height: 1.5;
-    color: #6f6f70;
-}
-
-.source-note {
-    font-size: 0.75rem;
-    color: #6f6f70;
-    margin-top: 4px;
     font-style: italic;
+    border-left: 2px solid #1c2029;
+    padding-left: 12px;
+    margin: 0.4rem 0 1rem;
+    line-height: 1.55;
+}
+
+.recap-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 0.4rem;
+}
+
+.recap-label {
+    color: #c0ab9a;
+    font-size: 0.88rem;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.verdict {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    line-height: 1.55;
+    color: #d3b099;
+    text-align: center;
+    margin: 2.5rem 0 1rem;
+    padding: 0 0.5rem;
+}
+
+.verdict-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #c0ab9a;
+    text-align: center;
+    margin: 0.5rem 1rem 2rem;
+}
+
+hr { border: none; border-top: 1px solid #1c2029; margin: 3rem 0; }
+
+.sources {
+    font-size: 0.72rem;
+    color: #6f6f70;
+    text-align: center;
+    line-height: 1.7;
 }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
+
+# ──────────────────────────────────────────────────────────────────────────
+# Data — restrict story scope to 2017–2024, fix Türkiye encoding inline
+# ──────────────────────────────────────────────────────────────────────────
 @st.cache_data
-def load_data():
-    return pd.read_csv("data/processed/precious_metals_trade_1988_2024.csv")
+def load_data() -> pd.DataFrame:
+    df = pd.read_csv("data/processed/precious_metals_trade_1988_2024.csv")
+    df["country"] = df["country"].replace({"TÃ¼rkiye": "Türkiye"})
+    df = df[df["year"].between(2017, 2024)].copy()
+    return df
+
 
 df = load_data()
+gold_imp = df[(df["metal_group"] == "Gold") & (df["flow"] == "Import")]
 
-gold = df[df["metal_group"] == "Gold"]
-gold_import = gold[gold["flow"] == "Import"]
 
-st.sidebar.title("Exploration Controls")
+# ──────────────────────────────────────────────────────────────────────────
+# Plot defaults
+# ──────────────────────────────────────────────────────────────────────────
+GOLD = "#d3b099"
+GOLD_BRIGHT = "#e8c19f"
+MUTED = "#3a3d44"
+RED = "#c25f3b"
+BLUE = "#5298c2"
+TEXT_DIM = "#6f6f70"
+TEXT = "#c0ab9a"
 
-selected_country = st.sidebar.selectbox(
-    "Highlight Country",
-    ["All Countries"] + sorted(df["country"].dropna().unique().tolist())
+
+def style_fig(fig, height=400):
+    fig.update_layout(
+        paper_bgcolor="#0b0d11",
+        plot_bgcolor="#0b0d11",
+        font_family="DM Sans",
+        font_color=TEXT,
+        font_size=12,
+        title_font_color=GOLD,
+        title_font_family="Playfair Display",
+        title_font_size=15,
+        margin=dict(l=10, r=10, t=50, b=40),
+        height=height,
+        showlegend=False,
+        hoverlabel=dict(bgcolor="#13161f", font_color=TEXT, font_family="DM Sans"),
+    )
+    fig.update_xaxes(gridcolor="#1c2029", zerolinecolor="#1c2029", linecolor="#1c2029")
+    fig.update_yaxes(gridcolor="#1c2029", zerolinecolor="#1c2029", linecolor="#1c2029")
+    return fig
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# Headline
+# ──────────────────────────────────────────────────────────────────────────
+st.markdown("# Follow the Gold")
+st.markdown(
+    '<div class="lede">When inflation hit in 2022 — the worst wave in forty years — the world was supposed to rush into gold. So who actually bought it?</div>',
+    unsafe_allow_html=True,
+)
+st.markdown("<hr>", unsafe_allow_html=True)
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# BEAT 1 — The promise
+# ──────────────────────────────────────────────────────────────────────────
+st.markdown('<div class="beat-tag">Beat 1 · The promise</div>', unsafe_allow_html=True)
+st.markdown("## Buy gold.")
+st.markdown(
+    '<div class="lede">Every time inflation rises, the advice is the same: buy gold. In 2022, inflation peaked at its highest level in forty years — and gold importers worldwide spent a record <b>$541 billion</b> bringing it across borders. The rule, on the surface, held.</div>',
+    unsafe_allow_html=True,
 )
 
-selected_year_range = st.sidebar.slider(
-    "Global Year Range",
-    1988,
-    2024,
-    (1988, 2024)
+global_series = gold_imp.groupby("year")["trade_value_usd"].sum().reset_index()
+global_series["value_bn"] = global_series["trade_value_usd"] / 1e9
+
+marker_colors = [GOLD if y == 2022 else MUTED for y in global_series["year"]]
+marker_sizes = [16 if y == 2022 else 8 for y in global_series["year"]]
+
+fig1 = go.Figure()
+fig1.add_trace(
+    go.Scatter(
+        x=global_series["year"],
+        y=global_series["value_bn"],
+        mode="lines+markers",
+        line=dict(color=MUTED, width=2),
+        marker=dict(color=marker_colors, size=marker_sizes,
+                    line=dict(color=marker_colors, width=0)),
+        hovertemplate="%{x}: $%{y:.0f} B<extra></extra>",
+    )
+)
+v2022 = float(global_series.loc[global_series["year"] == 2022, "value_bn"].iloc[0])
+fig1.add_annotation(
+    x=2022, y=v2022,
+    text="<b>$541 B in 2022</b><br><span style='font-size:11px'>the year inflation peaked</span>",
+    showarrow=True, arrowhead=2, arrowcolor=GOLD, arrowwidth=1.2,
+    ax=-60, ay=-55,
+    font=dict(color=GOLD, size=13, family="DM Sans"),
+    align="left",
+)
+fig1.update_layout(title="Global gold imports, 2017 – 2024 (USD bn)")
+fig1.update_xaxes(dtick=1)
+fig1.update_yaxes(title=None)
+fig1 = style_fig(fig1, height=380)
+st.plotly_chart(fig1, use_container_width=True, config={"displayModeBar": False})
+
+st.markdown(
+    '<div class="caveat">Sum of all reported gold imports across countries. Source: UN Comtrade HS 7108. Gold price changes, ETFs, and central-bank stocks are not in this number — only physical imports across borders.</div>',
+    unsafe_allow_html=True,
+)
+st.markdown("<hr>", unsafe_allow_html=True)
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# BEAT 2 — The disconfirmation
+# ──────────────────────────────────────────────────────────────────────────
+st.markdown('<div class="beat-tag">Beat 2 · The disconfirmation</div>', unsafe_allow_html=True)
+st.markdown("## But not in Caracas.")
+st.markdown(
+    '<div class="lede">In Venezuela, where inflation hit 201% in 2022, gold imports were effectively zero. Zimbabwe (105% inflation) imported $77 million. Lebanon (189% inflation) imported $1.1 billion. None of these countries appears on the list of large gold importers. The countries the safe-haven story says should be buying gold the hardest are barely buying it at all.</div>',
+    unsafe_allow_html=True,
 )
 
-# ── INTRO ──────────────────────────────────────────────────────────────────
-st.markdown("# Is Gold Really the Safe Haven?")
-st.markdown("""
-#### Gold prices hit record highs during inflation crises — but do physical trade flows support the safe haven narrative?
+high_inflation = ["Venezuela", "Lebanon", "Sudan", "Zimbabwe", "Argentina", "Iran"]
+low_inflation = ["Switzerland", "China", "United Arab Emirates", "India", "United Kingdom"]
+curated = high_inflation + low_inflation
 
-This project investigates global precious metals trade flows across 193 countries between 1988 and 2024.
-""")
-st.markdown("<small style='color:#6f6f70;'>Pre-2017 trade data: UN Comtrade HS 7106–7112 · Post-2016: BACI CEPII HS17 V202601</small>", unsafe_allow_html=True)
-st.markdown("---")
-
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.markdown("""<div class="metric-card">
-        <div class="metric-value">$3,000+</div>
-        <div class="metric-label">Gold Price 2024</div>
-        <div class="metric-insight">Highest recorded modern gold price per ounce</div>
-    </div>""", unsafe_allow_html=True)
-with col2:
-    st.markdown("""<div class="metric-card">
-        <div class="metric-value">85%</div>
-        <div class="metric-label">Turkey Inflation 2022</div>
-        <div class="metric-insight">One of the highest inflation rates during the 2022–23 wave</div>
-    </div>""", unsafe_allow_html=True)
-with col3:
-    st.markdown("""<div class="metric-card">
-        <div class="metric-value">70%</div>
-        <div class="metric-label">Swiss Refining Share</div>
-        <div class="metric-insight">Estimated share of globally refined gold processed in Switzerland</div>
-    </div>""", unsafe_allow_html=True)
-
-st.markdown("---")
-
-# ── CHAPTER 1 ──────────────────────────────────────────────────────────────
-st.markdown('<div class="chapter-badge">Chapter 1</div>', unsafe_allow_html=True)
-st.markdown("## Geographic Concentration of Gold Imports")
-
-map_metric = st.radio(
-    "Display Metric",
-    ["Absolute Trade Value", "Share of Global Total (%)"],
-    horizontal=True
+g22 = gold_imp[gold_imp["year"] == 2022].groupby("country", as_index=False).agg(
+    value=("trade_value_usd", "sum"),
+    cpi=("Headline CPI", "first"),
 )
 
-country_totals = gold_import.groupby("country")["trade_value_usd"].sum().reset_index()
-
-if map_metric == "Share of Global Total (%)":
-    country_totals["value"] = (country_totals["trade_value_usd"] / country_totals["trade_value_usd"].sum()) * 100
-    color_label = "Share (%)"
-else:
-    country_totals["value"] = country_totals["trade_value_usd"]
-    color_label = "Trade Value (USD)"
-
-fig1 = px.choropleth(
-    country_totals,
-    locations="country",
-    locationmode="country names",
-    color="value",
-    hover_name="country",
-    color_continuous_scale=[
-        [0, "#111319"],
-        [0.4, "#6f6f70"],
-        [1, "#d3b099"]
-    ],
-    labels={"value": color_label},
-    title="Gold Import Activity by Country"
+cpi22 = (
+    df[df["year"] == 2022][["country", "Headline CPI"]]
+    .drop_duplicates()
+    .rename(columns={"Headline CPI": "cpi"})
 )
-fig1.update_layout(
-    paper_bgcolor="#0b0d11",
-    geo=dict(
-        bgcolor="#0b0d11",
-        showframe=False,
-        showcoastlines=True,
-        coastlinecolor="#1c2029",
-        projection_type="natural earth",
-        showland=True,
-        landcolor="#1a1d24",
-        scope="world"
-    ),
-    font_color="#c0ab9a",
-    title_font_color="#d3b099"
+
+curated_df = (
+    pd.DataFrame({"country": curated})
+    .merge(g22[["country", "value"]], on="country", how="left")
+    .merge(cpi22, on="country", how="left")
 )
-st.plotly_chart(fig1, use_container_width=True)
-st.markdown('<div class="source-note">Source: UN Comtrade + BACI CEPII. The choropleth emphasizes spatial concentration patterns rather than exact quantitative comparison.</div>', unsafe_allow_html=True)
-st.markdown('<div class="insight-box">Large economies such as China, India, and Hong Kong dominate by absolute value. Switching to percentage share highlights Switzerland\'s disproportionate role relative to its population size.</div>', unsafe_allow_html=True)
-st.markdown("---")
+curated_df["value"] = curated_df["value"].fillna(0)
+curated_df["value_M"] = curated_df["value"] / 1e6
+curated_df = curated_df.sort_values("cpi", ascending=True)  # low CPI at top of horizontal chart
 
-# ── CHAPTER 2 ──────────────────────────────────────────────────────────────
-st.markdown('<div class="chapter-badge">Chapter 2</div>', unsafe_allow_html=True)
-st.markdown("## Inflation and Crisis Dynamics")
+def fmt_value(v_M: float) -> str:
+    if v_M < 0.5:
+        return " ≈ $0"
+    if v_M < 1000:
+        return f" ${v_M:,.0f} M"
+    return f" ${v_M/1000:,.1f} B"
 
-gold_time = gold_import[
-    (gold_import["year"] >= selected_year_range[0]) &
-    (gold_import["year"] <= selected_year_range[1])
-]
-
-if selected_country != "All Countries":
-    gold_time = gold_time[gold_time["country"] == selected_country]
-
-gold_time = gold_time.groupby("year")["trade_value_usd"].sum().reset_index()
-gold_time["trade_bn"] = gold_time["trade_value_usd"] / 1e9
+bar_colors = [RED if c in high_inflation else BLUE for c in curated_df["country"]]
+y_labels = [f"{c}  ·  CPI {i:.0f}%" for c, i in zip(curated_df["country"], curated_df["cpi"])]
 
 fig2 = go.Figure()
-fig2.add_trace(go.Scatter(
-    x=gold_time["year"],
-    y=gold_time["trade_bn"],
-    mode="lines+markers",
-    line=dict(color="#d3b099", width=3),
-    marker=dict(size=5),
-    name="Gold Imports"
-))
-for year, label in [(2008, "2008 Crisis"), (2020, "COVID-19"), (2022, "Inflation Wave")]:
-    if selected_year_range[0] <= year <= selected_year_range[1]:
-        fig2.add_vline(x=year, line_dash="dash", line_color="#6f6f70",
-                      annotation_text=label, annotation_font_color="#6f6f70")
+fig2.add_trace(
+    go.Bar(
+        x=curated_df["value_M"],
+        y=y_labels,
+        orientation="h",
+        marker=dict(color=bar_colors),
+        text=[fmt_value(v) for v in curated_df["value_M"]],
+        textposition="outside",
+        textfont=dict(color=TEXT, size=11, family="DM Sans"),
+        cliponaxis=False,
+        hovertemplate="%{y}<br>Gold imports 2022: %{text}<extra></extra>",
+    )
+)
 fig2.update_layout(
-    title="Gold Import Value Over Time",
-    paper_bgcolor="#0b0d11",
-    plot_bgcolor="#10141c",
-    font_color="#c0ab9a",
-    title_font_color="#d3b099",
-    xaxis=dict(gridcolor="#1c2029"),
-    yaxis=dict(gridcolor="#1c2029", title="Trade Value (Billion USD)")
+    title="Gold imports in 2022 — high-inflation (red) vs. low-inflation (blue)",
+    bargap=0.35,
 )
-st.plotly_chart(fig2, use_container_width=True)
-st.markdown('<div class="insight-box">Gold trade activity increases during major crisis periods including the 2008 financial crisis, COVID-19, and the 2022 inflation wave. The pattern is broadly consistent with safe-haven behavior.</div>', unsafe_allow_html=True)
+fig2.update_xaxes(title="Gold imports 2022 (USD millions)", tickformat=",")
+fig2.update_yaxes(title=None, automargin=True)
+fig2 = style_fig(fig2, height=480)
+st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
 
-st.markdown("### Inflation vs. Gold Imports")
+st.markdown(
+    '<div class="caveat">Red bars: 2022 Headline CPI above 20%. Blue bars: below 10%. Trade flows are not the same as ETF investment or jewellery demand — we measure physical gold crossing borders, not gold being hoarded inside a country.</div>',
+    unsafe_allow_html=True,
+)
+st.markdown("<hr>", unsafe_allow_html=True)
 
-scatter_year = st.slider("Scatterplot Year", 1988, 2024, 2022)
 
-scatter_data = gold_import[gold_import["year"] == scatter_year].groupby("country")["trade_value_usd"].sum().reset_index()
-scatter_data.columns = ["country", "trade_value"]
-cpi_data = df[df["year"] == scatter_year][["country", "Headline CPI"]].drop_duplicates()
-scatter_merged = scatter_data.merge(cpi_data, on="country", how="inner")
-scatter_merged = scatter_merged[
-    (scatter_merged["trade_value"] > 0) &
-    (scatter_merged["Headline CPI"].between(-20, 200))
+# ──────────────────────────────────────────────────────────────────────────
+# BEAT 3 — Then who?
+# ──────────────────────────────────────────────────────────────────────────
+st.markdown('<div class="beat-tag">Beat 3 · Then who?</div>', unsafe_allow_html=True)
+st.markdown("## Then who?")
+st.markdown(
+    '<div class="lede">So who imported the $541 billion of gold the world bought in 2022? At the top of the list: Switzerland, China, the UAE, the UK, India. Five countries took roughly two-thirds of the total. Four of the five had inflation rates of 6% or below — the opposite of what the safe-haven story would predict.</div>',
+    unsafe_allow_html=True,
+)
+
+top22 = g22.sort_values("value", ascending=False).head(8).copy()
+top22["value_bn"] = top22["value"] / 1e9
+top22 = top22.sort_values("value_bn", ascending=True)  # ascending so largest is on top
+
+def cpi_label(c: float) -> str:
+    if pd.isna(c):
+        return "n/a"
+    return f"{c:.1f}%"
+
+text_labels = [
+    f"  ${v:.0f} B  ·  CPI {cpi_label(c)}"
+    for v, c in zip(top22["value_bn"], top22["cpi"])
 ]
 
-if len(scatter_merged) > 5:
-    corr = scatter_merged["Headline CPI"].corr(np.log10(scatter_merged["trade_value"]))
-    if abs(corr) < 0.2:
-        strength = "Very Weak"
-    elif abs(corr) < 0.4:
-        strength = "Weak"
-    elif abs(corr) < 0.6:
-        strength = "Moderate"
-    else:
-        strength = "Strong"
-
-    m1, m2, m3 = st.columns(3)
-    with m1:
-        st.metric("Correlation", f"{corr:.2f}")
-    with m2:
-        st.metric("Relationship Strength", strength)
-    with m3:
-        st.metric("Countries", len(scatter_merged))
-
-    fig_scatter = px.scatter(
-        scatter_merged,
-        x="Headline CPI",
-        y="trade_value",
-        hover_name="country",
-        log_y=True,
-        trendline="ols",
-        labels={"Headline CPI": "Headline CPI (%)", "trade_value": "Gold Imports (log USD)"},
-        title=f"Inflation vs. Gold Imports ({scatter_year})",
-        color_discrete_sequence=["#5298c2"]
+fig3 = go.Figure()
+fig3.add_trace(
+    go.Bar(
+        x=top22["value_bn"],
+        y=top22["country"],
+        orientation="h",
+        marker=dict(
+            color=top22["cpi"].fillna(top22["cpi"].mean()),
+            colorscale=[[0, BLUE], [0.5, "#c0ab9a"], [1, RED]],
+            cmin=0, cmax=10,
+            line=dict(width=0),
+            colorbar=dict(
+                title=dict(text="CPI<br>%", font=dict(color=TEXT, size=10)),
+                thickness=10, len=0.55, x=1.04,
+                tickfont=dict(color=TEXT, size=10),
+            ),
+        ),
+        text=text_labels,
+        textposition="outside",
+        textfont=dict(color=TEXT, size=11, family="DM Sans"),
+        cliponaxis=False,
+        hovertemplate="%{y}<br>Imports: $%{x:.1f} B<extra></extra>",
     )
-    fig_scatter.update_layout(
-        paper_bgcolor="#0b0d11",
-        plot_bgcolor="#10141c",
-        font_color="#c0ab9a",
-        title_font_color="#d3b099",
-        xaxis=dict(gridcolor="#1c2029"),
-        yaxis=dict(gridcolor="#1c2029")
+)
+fig3.update_layout(title="Top gold importers in 2022, coloured by Headline CPI")
+fig3.update_xaxes(title="Gold imports 2022 (USD bn)")
+fig3.update_yaxes(title=None, automargin=True)
+fig3 = style_fig(fig3, height=420)
+st.plotly_chart(fig3, use_container_width=True, config={"displayModeBar": False})
+
+st.markdown(
+    '<div class="caveat">Five countries — Switzerland, China, UAE, UK, India — together imported about 64% of the world\'s gold in 2022. Most are low-inflation economies. The pattern points away from "consumers fleeing inflation" and toward something else.</div>',
+    unsafe_allow_html=True,
+)
+st.markdown("<hr>", unsafe_allow_html=True)
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# BEAT 4 — The reveal
+# ──────────────────────────────────────────────────────────────────────────
+st.markdown('<div class="beat-tag">Beat 4 · The reveal</div>', unsafe_allow_html=True)
+st.markdown("## China doubled down.")
+st.markdown(
+    '<div class="lede">China\'s gold imports in 2021: $39 billion. In 2022, the year inflation peaked: <b>$85 billion</b>. A doubling, in one year. That same February, Russia invaded Ukraine — and the United States, the EU, and Japan froze about $300 billion of Russia\'s foreign reserves. The signal to every other central bank was unambiguous: dollar reserves can be switched off. In 2022, central banks worldwide bought <b>1,136 tons of gold</b> — the most since 1950.</div>',
+    unsafe_allow_html=True,
+)
+
+china = (
+    gold_imp[gold_imp["country"] == "China"]
+    .groupby("year", as_index=False)["trade_value_usd"]
+    .sum()
+)
+china["value_bn"] = china["trade_value_usd"] / 1e9
+china_colors = [GOLD_BRIGHT if y == 2022 else MUTED for y in china["year"]]
+
+fig4 = go.Figure()
+fig4.add_trace(
+    go.Bar(
+        x=china["year"],
+        y=china["value_bn"],
+        marker_color=china_colors,
+        text=[f"${v:.0f} B" for v in china["value_bn"]],
+        textposition="outside",
+        textfont=dict(color=TEXT, size=11, family="DM Sans"),
+        cliponaxis=False,
+        hovertemplate="%{x}: $%{y:.1f} B<extra></extra>",
     )
-    st.plotly_chart(fig_scatter, use_container_width=True)
-    st.markdown('<div class="source-note">Source: World Bank Global Inflation Database matched with UN Comtrade/BACI. Countries with CPI > 200% excluded.</div>', unsafe_allow_html=True)
-
-st.markdown('<div class="insight-box">Inflation alone explains relatively little variation in gold import activity. The relationship is generally weak and differs across countries, suggesting that geopolitical factors, industrial demand, and financial market dynamics also play important roles.</div>', unsafe_allow_html=True)
-st.markdown('<div class="caveat-box">⚠️ Correlation does not imply causation. Trade volumes reflect multiple overlapping forces beyond inflation alone.</div>', unsafe_allow_html=True)
-st.markdown("---")
-
-# ── CHAPTER 3 ──────────────────────────────────────────────────────────────
-st.markdown('<div class="chapter-badge">Chapter 3</div>', unsafe_allow_html=True)
-st.markdown("## Precious Metals Comparison")
-st.markdown("Is gold's dominant position unique — or do all precious metals behave similarly during crises?")
-
-metal_filter = st.multiselect(
-    "Select Metals",
-    ["Gold", "Silver", "Platinum"],
-    default=["Gold", "Silver", "Platinum"]
 )
 
-df3 = df[
-    (df["metal_group"].isin(metal_filter)) &
-    (df["year"] >= selected_year_range[0]) &
-    (df["year"] <= selected_year_range[1])
-]
+v_2020 = float(china.loc[china["year"] == 2020, "value_bn"].iloc[0])
+v_2022 = float(china.loc[china["year"] == 2022, "value_bn"].iloc[0])
 
-bar_data = df3.groupby("metal_group")["trade_value_usd"].sum().reset_index()
-fig3a = px.bar(
-    bar_data,
-    x="metal_group",
-    y="trade_value_usd",
-    color="metal_group",
-    color_discrete_map={
-        "Gold": "#d3b099",
-        "Silver": "#a3c1d0",
-        "Platinum": "#c0ab9a"
-    },
-    labels={"metal_group": "Metal", "trade_value_usd": "Total Trade Value (USD)"},
-    title="Total Trade Value by Metal"
+fig4.add_annotation(
+    x=2020, y=v_2020,
+    text="<b>COVID</b><br><span style='font-size:10px'>imports collapse</span>",
+    showarrow=True, arrowhead=2, arrowcolor=TEXT_DIM, arrowwidth=1,
+    ax=-40, ay=-50, font=dict(color=TEXT_DIM, size=11, family="DM Sans"),
+    align="left",
 )
-fig3a.update_layout(
-    showlegend=False,
-    paper_bgcolor="#0b0d11",
-    plot_bgcolor="#10141c",
-    font_color="#c0ab9a",
-    title_font_color="#d3b099",
-    xaxis=dict(gridcolor="#1c2029"),
-    yaxis=dict(gridcolor="#1c2029")
+fig4.add_annotation(
+    x=2022, y=v_2022,
+    text="<b>+116% vs. 2021</b><br><span style='font-size:10px'>Russia/Ukraine · G7 freezes reserves</span>",
+    showarrow=True, arrowhead=2, arrowcolor=GOLD, arrowwidth=1.2,
+    ax=-100, ay=-60, font=dict(color=GOLD, size=12, family="DM Sans"),
+    align="left",
 )
-st.plotly_chart(fig3a, use_container_width=True)
 
-time_data = df3.groupby(["year", "metal_group"])["trade_value_usd"].sum().reset_index()
-fig3b = px.line(
-    time_data,
-    x="year",
-    y="trade_value_usd",
-    color="metal_group",
-    color_discrete_map={
-        "Gold": "#d3b099",
-        "Silver": "#a3c1d0",
-        "Platinum": "#c0ab9a"
-    },
-    labels={"year": "Year", "trade_value_usd": "Trade Value (USD)", "metal_group": "Metal"},
-    title="Trade Value Over Time by Metal"
+fig4.update_layout(title="China gold imports, 2017 – 2024")
+fig4.update_xaxes(dtick=1, title=None)
+fig4.update_yaxes(title="Imports (USD bn)")
+fig4 = style_fig(fig4, height=420)
+st.plotly_chart(fig4, use_container_width=True, config={"displayModeBar": False})
+
+st.markdown(
+    '<div class="caveat">Gold import data: UN Comtrade HS 7108. Central-bank gold purchases (1,136 tons in 2022, the highest since 1950) and the $300 B reserve freeze figure: World Gold Council, <i>Gold Demand Trends Full Year 2022</i>, and public reporting on the February 2022 G7 sanctions package.</div>',
+    unsafe_allow_html=True,
 )
-fig3b.update_layout(
-    paper_bgcolor="#0b0d11",
-    plot_bgcolor="#10141c",
-    font_color="#c0ab9a",
-    title_font_color="#d3b099",
-    xaxis=dict(gridcolor="#1c2029"),
-    yaxis=dict(gridcolor="#1c2029")
-)
-st.plotly_chart(fig3b, use_container_width=True)
-st.markdown('<div class="source-note">Source: UN Comtrade HS 7106 (Silver), 7108 (Gold), 7110 (Platinum) + BACI CEPII 2017–2024.</div>', unsafe_allow_html=True)
-st.markdown('<div class="insight-box">Gold accounts for ~$7.5T in total trade value — approximately 4× Silver ($1.9T) and 9× Platinum ($815B). While all metals show increased activity during crises, Gold\'s response is disproportionately larger.</div>', unsafe_allow_html=True)
-st.markdown("---")
+st.markdown("<hr>", unsafe_allow_html=True)
 
-# ── CHAPTER 4 ──────────────────────────────────────────────────────────────
-st.markdown('<div class="chapter-badge">Chapter 4</div>', unsafe_allow_html=True)
-st.markdown("## The Swiss Connection")
-st.markdown("Why does a landlocked country of 8 million sit at the center of global gold flows?")
 
-swiss_data = df[(df["metal_group"] == "Gold") & (df["country"] == "Switzerland")]
-global_gold = gold_import.groupby("year")["trade_value_usd"].sum().reset_index()
-global_gold.columns = ["year", "global_total"]
-
-flow_type = st.radio("Flow Type", ["Import", "Export", "Both"], horizontal=True)
-
-if flow_type != "Both":
-    swiss_data = swiss_data[swiss_data["flow"] == flow_type]
-
-swiss_time = swiss_data.groupby("year")["trade_value_usd"].sum().reset_index()
-swiss_time["trade_bn"] = swiss_time["trade_value_usd"] / 1e9
-
-swiss_vs_global = swiss_time.merge(global_gold, on="year", how="left")
-swiss_vs_global["share"] = (swiss_vs_global["trade_value_usd"] / swiss_vs_global["global_total"]) * 100
-
-fig4a = go.Figure()
-fig4a.add_trace(go.Bar(
-    x=swiss_time["year"],
-    y=swiss_time["trade_bn"],
-    marker_color="#d3b099",
-    hovertemplate="Year: %{x}<br>Value: $%{y:.2f}B<extra></extra>"
-))
-for year, label in [(2008, "2008"), (2020, "COVID"), (2022, "Inflation")]:
-    fig4a.add_vline(x=year, line_dash="dash", line_color="#6f6f70",
-                   annotation_text=label, annotation_font_color="#6f6f70")
-fig4a.update_layout(
-    title=f"Switzerland Gold Trade ({flow_type}) Over Time",
-    paper_bgcolor="#0b0d11",
-    plot_bgcolor="#10141c",
-    font_color="#c0ab9a",
-    title_font_color="#d3b099",
-    xaxis=dict(gridcolor="#1c2029"),
-    yaxis=dict(gridcolor="#1c2029", title="Trade Value (Billion USD)")
-)
-st.plotly_chart(fig4a, use_container_width=True)
-
-fig4b = px.line(
-    swiss_vs_global,
-    x="year",
-    y="share",
-    title="Switzerland's Share of Global Gold Imports (%)",
-    labels={"share": "Share (%)", "year": "Year"},
-    color_discrete_sequence=["#5298c2"]
-)
-fig4b.update_layout(
-    paper_bgcolor="#0b0d11",
-    plot_bgcolor="#10141c",
-    font_color="#c0ab9a",
-    title_font_color="#d3b099",
-    xaxis=dict(gridcolor="#1c2029"),
-    yaxis=dict(gridcolor="#1c2029")
-)
-st.plotly_chart(fig4b, use_container_width=True)
-st.markdown('<div class="source-note">Source: BACI CEPII HS17 (2017–2024) + UN Comtrade pre-2017.</div>', unsafe_allow_html=True)
-st.markdown('<div class="insight-box">Switzerland\'s share of global gold trade fluctuates notably during crisis periods, suggesting its refining hub role intensifies when global demand spikes. Four major refineries in Ticino — Valcambi, PAMP, Argor-Heraeus, and Metalor — process raw gold and redistribute refined bars globally.</div>', unsafe_allow_html=True)
-st.markdown("---")
-
-# ── CHAPTER 5 ──────────────────────────────────────────────────────────────
-st.markdown('<div class="chapter-badge">Chapter 5</div>', unsafe_allow_html=True)
-st.markdown("## The Verdict")
-st.markdown("#### What does the data tell us — and what remains uncertain?")
+# ──────────────────────────────────────────────────────────────────────────
+# BEAT 5 — Verdict
+# ──────────────────────────────────────────────────────────────────────────
+st.markdown('<div class="beat-tag">Beat 5 · Verdict</div>', unsafe_allow_html=True)
+st.markdown("## The verdict.")
 
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.markdown("""<div class="metric-card">
-        <div class="metric-value">Weak</div>
-        <div class="metric-label">Inflation Correlation</div>
-        <div class="metric-insight">Inflation alone explains relatively little variation in gold imports</div>
-    </div>""", unsafe_allow_html=True)
+    st.markdown('<div class="recap-num" style="color:#d3b099">+116%</div>', unsafe_allow_html=True)
+    st.markdown('<div class="recap-label">China\'s gold imports<br>2021 → 2022</div>', unsafe_allow_html=True)
 with c2:
-    st.markdown("""<div class="metric-card">
-        <div class="metric-value">4×</div>
-        <div class="metric-label">Larger than Silver</div>
-        <div class="metric-insight">Gold trade volume substantially exceeds other precious metals</div>
-    </div>""", unsafe_allow_html=True)
+    st.markdown('<div class="recap-num" style="color:#c25f3b">≈ $0</div>', unsafe_allow_html=True)
+    st.markdown('<div class="recap-label">Imported by Venezuela<br>in 2022 (CPI 201%)</div>', unsafe_allow_html=True)
 with c3:
-    st.markdown("""<div class="metric-card">
-        <div class="metric-value">🇨🇭 Central</div>
-        <div class="metric-label">Swiss Role</div>
-        <div class="metric-insight">Switzerland becomes more prominent during crisis periods</div>
-    </div>""", unsafe_allow_html=True)
+    st.markdown('<div class="recap-num" style="color:#d3b099">1,136 t</div>', unsafe_allow_html=True)
+    st.markdown('<div class="recap-label">Central-bank gold buying<br>worldwide, 2022 —<br>highest since 1950</div>', unsafe_allow_html=True)
 
-st.markdown("""
-<div class="insight-box">
-<b>Conclusion:</b> The analysis provides evidence broadly consistent with gold's safe-haven role during periods of economic uncertainty. 
-However, inflation alone appears insufficient to explain global gold trade dynamics, indicating that additional geopolitical and financial mechanisms are likely involved.
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<div class="verdict">"Buy gold when inflation hits" is a story about consumers.<br>The 2022 data isn\'t.</div>',
+    unsafe_allow_html=True,
+)
+st.markdown(
+    '<div class="verdict-sub">The people in Caracas and Harare didn\'t buy gold. The central banks in Beijing, Abu Dhabi, and Ankara did. Gold\'s safe-haven role is alive — it is just no longer the citizen\'s hedge against inflation. It is the sovereign\'s hedge against the dollar.</div>',
+    unsafe_allow_html=True,
+)
 
-st.markdown("""
-<div class="caveat-box">
-⚠️ <b>Limitations:</b> This analysis relies on trade-flow data rather than investor-level behavior or ETF flows. 
-Combining UN Comtrade and BACI datasets may introduce minor methodological discontinuities.
-Future work could integrate gold price volatility, central bank reserves, and financial market indicators.
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("---")
-st.markdown("<small style='color:#6f6f70;'>Data: UN Comtrade HS 7106–7112 (1988–2016) · BACI CEPII HS17 V202601 (2017–2024) · World Bank Global Inflation Database · VDSS FS2026</small>", unsafe_allow_html=True)
+st.markdown("<hr>", unsafe_allow_html=True)
+st.markdown(
+    '<div class="sources">'
+    'Data: UN Comtrade HS 7108 (gold imports, 2017 – 2024) · World Bank Global Inflation Database (Headline CPI). '
+    'External citations on this page: World Gold Council, <i>Gold Demand Trends Full Year 2022</i> (central-bank purchase volumes); '
+    'public reporting on the February 2022 G7 freeze of Russian foreign reserves. '
+    '<br><br>VDSS FS2026 · Gruppe 3 — Schwarz · Omokaro · Thirukumar'
+    '</div>',
+    unsafe_allow_html=True,
+)
