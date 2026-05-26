@@ -16,7 +16,7 @@ The project takes a single question seriously:
 
 The question is deliberately phrased as a whodunit. The conventional answer — *consumers in high-inflation countries, hedging their savings* — is something the project's joined UN Comtrade + World Bank inflation dataset can either confirm or disconfirm at the country-year level. As the data report and the narrative-design document show, **the data disconfirms it**. The countries with the highest 2022 inflation (Venezuela, Lebanon, Sudan, Zimbabwe) imported almost no gold; the largest importers (Switzerland, China, the UAE, the UK, India) were almost all low-inflation economies. The project's central reveal sits in one country's data: **China's gold imports doubled in 2022, the same year Russia's foreign reserves were frozen by the G7**.
 
-The final product is a single-page scrollytelling narrative, built in Streamlit, that walks a reader through this argument in five beats. The full beat-by-beat design is documented in `docs/narrative_design.md`. A Phase-1 diagnosis of the earlier dashboard-style draft and why it was scrapped is in `docs/diagnosis.md`.
+The final product is a single-page scrollytelling narrative, built in Streamlit, that walks the reader through the argument in five beats: a setup (the cliché), a disconfirmation (the high-inflation countries did not buy), a pivot (then who did?), a reveal (China doubled its imports in the year of the Russian reserve freeze), and a verdict. The full beat structure and the rationale for each visual choice is documented in the *Visualization Concept* section of this document.
 
 ## Project Objectives and Success Criteria
 
@@ -71,7 +71,7 @@ Jobs: find country-level evidence that gold acts as an inflation hedge; extract 
 
 Pains: ETF marketing material is too biased to use with clients; academic papers are full of regression tables clients can't follow; most online visualizations are either too simple or too overwhelming; country-level trade flow data is hard to find.
 
-Gains: well-designed neutral charts he can screenshot into PowerPoint; a country filter to highlight markets his clients care about; clear information about data sources so he can answer methodology questions on the spot.
+Gains: well-designed neutral charts he can screenshot into PowerPoint, with country labels and key values printed directly on the chart so he does not need to add captions before showing it to a client; clear information about data sources so he can answer methodology questions on the spot; explicit citations on any number that came from outside our dataset.
 
 ## Situation Assessment
 
@@ -101,24 +101,36 @@ The project runs alongside 7 other modules, so available time per person is limi
 
 ## Visualization Concept
 
-The product is a single-page scrollytelling narrative built in Streamlit. The reader's only control is the scroll wheel; there is no sidebar, no global filter, and no widget inside the narrative. State changes are bound to scroll position. Visual emphasis (a 2022 highlight, a China bar, a Venezuela near-zero) is hard-coded by the author, not by the reader.
+The product is a single-page scrollytelling narrative built in Streamlit. The reader's only control is the scroll wheel. There is no sidebar, no global filter, and no widget inside the narrative. State changes are bound to scroll position rather than to user input. Visual emphasis (the 2022 marker, the China bar, the near-zero Venezuela bar) is fixed by the author, not chosen by the reader.
 
-The five beats below replace the earlier draft's five chapters. The full visual specification — colour, axis, annotation — lives in `viz_design_report.qmd`; what follows is the narrative role of each beat.
+This is a deliberate trade-off. An earlier draft of the app exposed six widgets: a year-range slider, a country highlighter, a metric radio, a year slider for the scatter, a metals multi-select, and a Switzerland flow-type radio. Every widget made the surrounding caption potentially false (when the reader moved the year slider the chapter caption referred to a different year than it was discussing) and dispersed the reader's attention across configurations rather than focusing it on the argument. Persona Lena (under five minutes of attention, mobile-first, no statistical training) benefits from author-driven flow that leads her to one conclusion she can repeat. Persona Thomas (screenshotting charts for client decks) benefits from charts that are self-contained on capture, with country labels and key values printed on the chart itself rather than left to the reader to discover.
 
-**Beat 1 — Buy gold.**
-A line chart of global gold imports from 2017 to 2024. Only the 2022 point is highlighted; the rest of the line is muted. An on-chart annotation calls out the \$541 B figure ("the year inflation peaked"). The beat sets up the safe-haven cliché so the next beat can break it.
+The five beats below replace the five "chapters" of the earlier draft. For each beat we document both the visual (data variables, mark type, encoding) and the rationale (why this encoding, which persona need it serves, what alternatives were discarded).
 
-**Beat 2 — But not in Caracas.**
-A hand-curated horizontal bar chart of 11 countries — six high-inflation (Venezuela, Lebanon, Sudan, Zimbabwe, Argentina, Iran) and five low-inflation (Switzerland, China, UAE, India, UK). Y-axis sorted by 2022 Headline CPI; X-axis is gold imports in USD millions. The high-inflation countries have invisible bars; the low-inflation countries have huge ones. The visual disconfirms the consumer-inflation story without the prose needing to do the work.
+**Beat 1: Buy gold.**
+A line chart of global gold imports from 2017 to 2024. Only the 2022 point is highlighted in the accent colour; the rest of the line is rendered in a muted neutral. An on-chart annotation prints the \$541 billion figure with the label "the year inflation peaked".
 
-**Beat 3 — Then who?**
-A ranked bar chart of the top eight 2022 gold importers, coloured by Headline CPI. The reader sees that four of the top five had inflation below 6%. The beat closes the door on the consumer reading and opens the next question.
+*Rationale.* A single highlighted point in an otherwise muted chart directs the reader's eye to one fact (a record year) before the prose has done any work. Muting the rest of the line follows the principle that colour is reserved for whatever the prose is currently talking about. The annotation sits on the chart so that the chart can be read on its own, which matters for Lena (mobile reading, low patience for long captions) and for Thomas (he screenshots charts for slides and needs them legible without the surrounding text). We considered marking 2008 and 2020 as additional event lines but discarded the idea because the dataset is scoped to 2017 to 2024 (see Data Report) and 2008 is therefore not legitimately on this chart.
 
-**Beat 4 — China doubled down.**
-A bar chart of China's gold imports, 2017–2024. The 2022 bar is highlighted; on-chart annotations call out the COVID-2020 collapse and the 2022 +116% jump, with the latter explicitly framed as coinciding with the G7 freeze of Russian foreign reserves. The 1,136-ton World Gold Council central-bank purchase figure (the highest since 1950) appears in the chart caveat as an external citation.
+**Beat 2: But not in Caracas.**
+A hand-curated horizontal bar chart of eleven countries: six high-inflation cases (Venezuela, Lebanon, Sudan, Zimbabwe, Argentina, Iran) and five low-inflation cases (Switzerland, China, the UAE, India, the UK). The y-axis is sorted by 2022 Headline CPI from low to high. The x-axis is gold imports in USD millions on a linear scale. Country labels print the CPI value next to the country name. High-inflation rows show invisible or near-invisible bars; low-inflation rows show very long ones.
 
-**Beat 5 — The verdict.**
-A three-number recap (+116 % / ≈ \$0 / 1,136 t) followed by one sentence: *gold's safe-haven role is alive — it is just no longer the citizen's hedge against inflation, but the sovereign's hedge against the dollar*. No new chart. The numbers are the chart.
+*Rationale.* An earlier draft used a full-panel scatter on a log axis. The log scale would have softened the visual point the beat exists to make, namely that the high-inflation countries' bars are essentially zero. The linear axis lets the disconfirmation land without the prose having to argue for it. The country list is hand-picked rather than a top-n slice because the story needs both extreme high-inflation cases (Venezuela, Zimbabwe) and the eventual reveal candidates (Switzerland, China) in the same frame. For Lena, who is not statistically trained, a chart that disconfirms the cliché without needing the word "correlation" is more useful than a scatter with a trend line.
+
+**Beat 3: Then who?**
+A ranked horizontal bar chart of the top eight gold importers in 2022, coloured by 2022 Headline CPI on a continuous ramp from blue (low inflation) through neutral to red (high inflation). Each bar label prints both the USD value and the CPI percentage.
+
+*Rationale.* After the Beat 2 disconfirmation the reader is asking the next question: then who actually did buy the gold? A ranked bar with CPI colouring shows the answer (mostly low-CPI countries) without the prose having to spell it out. We considered a choropleth and discarded it: a map encodes geography, while the argument here is rank order. A map would also make small importers look as visually present as large ones, which softens the very point of the chart.
+
+**Beat 4: China doubled down.**
+A bar chart of China's gold imports from 2017 to 2024, with the 2022 bar in the bright accent colour and all other years in muted neutral. Two on-chart annotations: one calls out the 2020 COVID collapse ("imports collapse"), the other calls out the 2022 doubling with the framing "+116% vs 2021, Russia/Ukraine, G7 freezes reserves". The figure of 1,136 tons of central-bank gold purchases worldwide in 2022 (World Gold Council, the highest since 1950) appears in the caveat below the chart, explicitly cited as external.
+
+*Rationale.* By Beat 4 the reader is ready for the reveal, so the chart commits to it. The +116% number and the political framing both sit on the chart so a reader who skips the lede still gets the claim. We placed the 1,136-ton figure in the caveat rather than in the prose because it is the one number on the page that does not come from our dataset, and Persona Thomas needs the source-attribution signal to be unambiguous. Without that signal, Thomas cannot defend the number to a client.
+
+**Beat 5: The verdict.**
+Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-line caption, followed by one sentence stating the verdict: gold's safe-haven role is the sovereign's hedge against the dollar, not the citizen's hedge against inflation.
+
+*Rationale.* The closing beat exists for retention, not for analysis. The three numbers plus one sentence is the unit a reader can repeat to a friend twenty-four hours later, which is the operational success criterion for Lena ("be able to talk about it with friends using real data"). We considered an exit chart that returns to the global time series with an overlay and discarded it: a final chart invites the reader back into analysis mode at exactly the point where we want them to leave with one claim. The colour choices in the recap (the accent colour for the positive numbers, red for the disconfirming zero) re-use the same semantics introduced in Beat 2, so the reader recognises them without a legend.
 
 ## Project Plan
 
