@@ -1,70 +1,180 @@
-# Visualization Design Report
-This report documents the visual encoding and design decisions made during the development of the visualization product. It translates the visualization concept outlined in the [Project Charta](project_charta.qmd) into concrete design specifications and documents the resulting prototype(s).
+---
+title: "Visualization Design Report"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+This report documents the visual encoding and design decisions for *Follow the Gold*, the single-page scrollytelling narrative described in the [Project Charta](project_charta.qmd) and detailed beat-by-beat in `narrative_design.md`. The earlier (dashboard-style) draft of the app is critiqued in `diagnosis.md`; the decisions here flow from that critique.
 
 ## Design Overview
-Briefly summarise the visualization concept from the Project Charta and describe any refinements or changes that emerged during the design process. Reference the project objectives and user needs that drive the design.
+
+The product is a five-beat scrollytelling narrative answering the question *"when inflation hit in 2022, who actually bought the gold?"*. The reader's only control is the scroll wheel.
+
+The design follows the **Martini Glass** structure described by @segel_narrative_2010 in *Narrative Visualization: Telling Stories with Data*: the story begins narrow (one number, one chart, the author's framing), holds the reader through a guided central path (Beats 2–4, where the disconfirmation and the reveal unfold), and lands narrow again (a single verdict sentence in Beat 5). Segel & Heer's seven *narrative visualization genres* place this app firmly in the **annotated chart sequence** genre — distinct from a magazine layout (which keeps text and visuals separate), a partitioned poster (which juxtaposes panels for comparison), or a video. The implication for design: each beat must be a self-contained chart-with-annotation that earns its scroll-position, not a panel in a multi-pane layout.
+
+Two of Segel & Heer's other key dimensions inform our concrete choices:
+
+1. **Author-driven vs reader-driven.** We sit far on the author-driven end — no in-narrative widgets, no filters, no exploration mode after the verdict. The argument is fixed. This is intentional. The earlier draft was reader-driven (sidebar + sliders) and the critique in `diagnosis.md` showed that mode dilutes the argument: when the reader controls the year, the chapter caption becomes unfalsifiable.
+2. **Messaging tools.** Segel & Heer enumerate annotations, captions, highlighting, headlines, accompanying text, and progress bars. We use the first four heavily and deliberately skip the last two; the scroll bar of the browser already gives positional feedback.
 
 ## Data-to-Visual Mapping
-Document the mapping of data variables to visual channels. For each view or chart in the visualization product, describe:
 
-* **Data variables**: Which variables from the processed datasets (see [Data Report](data_report.qmd)) are represented?
-* **Marks**: What geometric primitives are used to represent data items – points, lines, areas, volumes?
-* **Visual channels**: How are data attributes encoded – position, length, angle, area, colour hue, colour saturation, brightness, shape, orientation, texture?
-* **Scale and axis design**: What scales are used (linear, logarithmic, categorical, temporal)? How are axes labelled and annotated?
-* **Colour design**: What colour palette is used and why? Consider colour-blindness accessibility (e.g. using `viridis`, `ColorBrewer` palettes) and semantic colour mappings (e.g. red for negative, green for positive).
+The mapping below covers the four charts and the closing number stack. All five rely on the same processed table (`data/processed/precious_metals_trade_1988_2024.csv`), filtered to **gold imports, 2017–2024**. The Türkiye / mojibake duplicate is repaired at load time inside the app.
 
-A tabular overview can help provide a quick summary:
+: Data-to-visual mapping for the five beats. {#tbl-encoding-overview}
 
-: Data-to-visual mapping overview. {#tbl-encoding-overview}
-
-| View / Chart | Data variables | Mark type | Visual channels | Scale |
+| View / Beat | Data variables (from processed CSV) | Mark type | Visual channels | Scale |
 |---|---|---|---|---|
-| e.g. Sales by Region | region (cat.), revenue (quant.) | bar | x-position, length, colour hue | categorical, linear |
-| ... | ... | ... | ... | ... |
+| Beat 1 — global gold imports time series | year (2017–2024), trade_value_usd (Gold, Import, summed by year) | line + markers | x = year (linear), y = imports USD bn (linear), colour = focus highlight (2022 gold, others muted), size = focus marker enlarged | linear, linear |
+| Beat 2 — curated 11-country inflation/imports comparison | country (11 selected), trade_value_usd 2022, Headline CPI 2022 | horizontal bar | y = country sorted by CPI, x = imports USD M (linear), colour = binary category (red = CPI > 20 %, blue = CPI < 10 %) | categorical, linear |
+| Beat 3 — top-8 importers 2022 | country (top 8 by 2022 imports), trade_value_usd, Headline CPI | horizontal bar | y = country (ranked), x = imports USD bn (linear), colour = Headline CPI on a divergent ramp (blue 0 % → cream 5 % → red 10 %) | categorical, linear |
+| Beat 4 — China imports 2017–2024 | year, trade_value_usd (China, Gold, Import) | vertical bar | x = year (linear), y = imports USD bn (linear), colour = focus highlight (2022 gold, others muted), text annotations bound to 2020 and 2022 bars | linear, linear |
+| Beat 5 — verdict number stack | three precomputed scalars (+116 %, ≈ \$0, 1 136 t) | typographic mark (large numeral) | size = headline weight, colour = positive (gold) / negative (red) | n/a |
+
+### Colour design and accessibility
+
+The palette is intentionally narrow: dark background (`#0b0d11`), warm cream as the **default** typography colour (`#c0ab9a`), and a single warm gold accent (`#d3b099` / `#e8c19f`) used **only on the element the prose is currently talking about**. Muted grey (`#3a3d44`) is the background-colour for non-focus marks. Beats 2 and 3 add two divergent hues: **blue** for low-CPI countries (`#5298c2`) and **terracotta red** for high-CPI countries (`#c25f3b`). Both pass WCAG 2.1 AA contrast against the dark background and are distinguishable to all three common forms of colour-blind users in the IBM design library's deuteranopia / protanopia / tritanopia simulation.
+
+The principle, after Tufte and reinforced by Segel & Heer's discussion of *highlighting* as a messaging tool: **grey is the default; colour is reserved for the argument**. Every chart's emphasis (the 2022 marker in Beat 1, China in Beat 4) is a foreground gold against a muted-grey background of the rest of the data.
+
+### Scales and axis design
+
+Two scale decisions deserve explicit justification.
+
+1. **Linear axes everywhere, including Beat 2.** An earlier draft used a log scale on Beat 2's X-axis (imports). The log scale would have made Venezuela's \$37 000 bar legible — but the visual *point* of Beat 2 is that high-inflation countries' bars are essentially invisible next to Switzerland's. A log scale would soften the disconfirmation; the linear scale lands it. Where a number is unreadable because the bar is too short, the value is printed *as text* next to the bar (`"≈ $0"`, `"$77 M"`). The reader gets the number without losing the visual punchline.
+2. **Linear time on the year axis** (Beats 1 and 4). The dataset is annual; the natural unit of the story is the year. No log-time, no smoothing across years.
+
+### Annotation strategy
+
+Annotations are placed **on the chart**, not as floating dashed vertical lines or sidebar captions. Two examples:
+
+- Beat 1: a single arrow annotation pointing at the 2022 marker, reading *"$541 B in 2022 — the year inflation peaked"*. Replacing the earlier draft's three vertical event lines for 2008 / 2020 / 2022, which (a) added visual clutter and (b) annotated a 2008 value that the dataset does not actually carry (see `diagnosis.md` §4.1).
+- Beat 4: two arrow annotations on the China bar chart — one on the 2020 COVID collapse, one on the 2022 +116 % jump. The 2022 annotation carries the political-economy framing in its own text ("*Russia/Ukraine · G7 freezes reserves*"), so the chart can be read without the surrounding prose.
 
 ## Layout and Composition
-Describe how individual views are composed into the overall visualization product:
 
-* **Spatial arrangement**: How are views arranged on the screen or page? Grid layout, free-form, scrollable narrative, etc.
-* **Coordination between views**: Are views linked (e.g. brushing and linking, shared filters, coordinated highlighting)?
-* **Hierarchy and navigation**: How does the user navigate between different levels of detail or different thematic sections?
-* **Responsive design**: How does the layout adapt to different screen sizes and devices, if applicable?
+The layout is a **single vertical column**, ~760 px wide, dark background, centred on the page. There is no header navigation, no sidebar, no footer beyond the source line, no tabs, no chapter index. Scroll is the only navigation.
 
-Include annotated wireframes or layout sketches to illustrate the composition.
+Each beat is composed in the same rhythm:
+
+```
+[ beat tag       e.g. "Beat 3 · Then who?" ]
+[ heading        ## Then who? ]
+[ lede           one paragraph, ~60–90 words ]
+[ chart          single Plotly figure ~400 px tall ]
+[ caveat         italic small-caps line, source / scope note ]
+─────────────────────────────────────────────────  <hr>
+```
+
+The repeating rhythm is the design's main scrollytelling cue: the reader learns after the first beat that each `<hr>` is a beat boundary and that the next paragraph will name the next move. This is the [@segel_narrative_2010] *consistent visual platform* recommendation applied tightly — five beats, identical container, one chart each.
+
+There is **no coordination between views**. Each beat's chart is independent. We considered linked-brushing across beats (e.g. select a country in Beat 3 to highlight it in Beats 1 and 2) and rejected it: it would re-introduce reader-driven exploration into an author-driven story.
+
+### Responsive design
+
+Streamlit's default behaviour handles the 760-px column on desktop and degrades to full-width on mobile. Plotly's charts re-flow automatically. On a phone, the on-chart text annotations stay legible because they are bound to data points rather than to pixel coordinates.
 
 ## Interaction Design
-If the visualization product includes interactive elements, document them here:
 
-* **Interaction techniques**: Selection, filtering, zooming, panning, brushing, details-on-demand, drill-down, etc.
-* **Input modalities**: Mouse, touch, keyboard shortcuts, search fields, etc.
-* **State management**: How does the system respond to user interactions? What state transitions occur?
-* **Feedback and transitions**: How are changes communicated to the user – animations, highlighting, progressive disclosure?
+The product has **no interactive widgets inside the narrative**. The only interactions are:
 
-For each interaction, describe which user task (from the user analysis in the Project Charta) it supports and how it contributes to the cognitive, communicative or experiential value of the product.
+1. **Scroll.** The primary mode of navigation.
+2. **Hover** on Plotly charts to see the exact value behind a mark. Tooltip styling matches the dark theme.
+3. **The browser's own scroll-back affordance.** A reader who wants to re-read Beat 2 after Beat 5 can scroll up.
+
+This is a deliberate retreat from the earlier draft's six widgets (year-range slider, country highlighter, map-metric radio, scatter-year slider, metals multiselect, Switzerland flow-type radio). Each of those widgets carried at least one of these costs:
+
+- Made the surrounding caption potentially false (e.g. moving the scatter-year slider made the "Very Weak correlation" caption refer to a different year)
+- Exposed the dataset's coverage gaps (e.g. the Switzerland export radio produced empty plots because Switzerland has no export rows in the dataset)
+- Asked the reader to do investigation work the author should have done
+
+The author-driven mode is the right answer for a five-minute argument with a definite conclusion. An exploration mode (a Charta carry-over from the Persona 2 *"filter for markets his clients care about"* job) would be appropriate for a downstream product — a follow-on dashboard — but not for the narrative itself.
 
 ## Visual Style and Aesthetics
-Document the overall visual design language:
 
-* **Typography**: Font families, sizes, hierarchy of text elements (titles, labels, annotations, body text).
-* **Colour palette**: Primary and secondary colours, background, accent colours. Provide colour codes (hex/RGB).
-* **Spacing and alignment**: Grid system, margins, padding, whitespace strategy.
-* **Branding**: Integration of organisational identity, logos, visual style guides, if applicable.
-* **Accessibility**: Considerations for colour-blindness, contrast ratios, screen reader compatibility, font legibility.
+### Typography
+
+- **Headings.** *Playfair Display* (700 / 900 weights), serif, in gold (`#d3b099`). The serif heading establishes editorial weight — this is a written argument, not a control panel.
+- **Body and chart text.** *DM Sans* (300–500 weights), sans-serif, in warm cream (`#c0ab9a`). DM Sans was chosen for readable small-size renderings of axis ticks and annotations.
+- **Numbers in the verdict block.** *Playfair Display* 900-weight at 3 rem. The reader is meant to remember these.
+
+### Colours (hex)
+
+| Role | Hex | Use |
+|---|---|---|
+| Background | `#0b0d11` | App background, plot background |
+| Body text | `#c0ab9a` | Default prose colour |
+| Heading / accent | `#d3b099` | Headings, focus marks, positive verdict numbers |
+| Accent (brighter) | `#e8c19f` | Beat 4 China-2022 bar |
+| Muted | `#3a3d44` | Non-focus marks (rest of the line, rest of the bars) |
+| Subtle text | `#6f6f70` | Captions, beat tags, source line |
+| High-CPI category | `#c25f3b` | Beat 2 red bars; Beat 5 Venezuela number |
+| Low-CPI category | `#5298c2` | Beat 2 blue bars |
+| Border | `#1c2029` | `<hr>`, caveat left border |
+
+### Spacing
+
+- Reading column width 760 px.
+- 3 rem of vertical padding between beats (via the `<hr>` margin).
+- 1.7 line-height on body text — comfortable for prose reading, not for dense numerical content.
+
+### Branding
+
+No institutional branding (ZHAW / VDSS) on the page itself; the project attribution sits in the small source line at the bottom. The visual identity is deliberately editorial (think *Bloomberg Graphics* or *NYT Upshot*) rather than academic, because the persona analysis identified both target readers (Lena, Thomas) as readers of editorial finance media.
+
+### Accessibility
+
+- Contrast ratios for all text colours on the dark background: 8.2:1 (body), 9.1:1 (heading) — both above WCAG 2.1 AA's 4.5:1 threshold.
+- Colour is never the only encoding. The Beat 3 CPI-coloured ramp has the CPI number printed *next to* each bar; the Beat 2 red/blue categorisation has the inflation rate in the y-axis label.
+- All charts are rendered as SVG by Plotly, supporting browser zoom without resampling.
 
 ## Prototype Description
-Document the developed prototype(s):
 
-* **Prototype fidelity**: Low-fidelity (sketches, wireframes), medium-fidelity (static mockups), high-fidelity (interactive implementation)?
-* **Screenshots and/or link**: Include representative screenshots of the prototype. If the prototype is accessible online, provide the URL.
-* **Technology stack**: Tools, libraries and frameworks used for implementation (e.g. D3.js, Plotly, Tableau, Power BI, Streamlit, Observable, etc.).
-* **Code and version control**: Link to the code repository, branch or tag corresponding to the current prototype version.
+**Fidelity.** High — this is the production build, not a wireframe. Source: `deployment/app.py`.
+
+**Technology stack.**
+
+- Python 3.12, managed by `uv`.
+- Streamlit 1.56 for the page shell, layout, and markdown rendering.
+- Plotly 6.6 for the four charts (all built with `plotly.graph_objects.Figure` directly — no `plotly.express`, because each chart needs custom annotation placement).
+- Pandas 2.3 for the slicing.
+- CSS injected via `st.markdown(..., unsafe_allow_html=True)` to hide the Streamlit sidebar, narrow the reading column, and load Playfair Display / DM Sans from Google Fonts.
+
+**Deployment.** Streamlit Cloud at <https://gold-flows.streamlit.app/>.
+
+**Code and version control.** `deployment/app.py`, ~296 lines, committed under git tag-able commits per phase (Phase 1+2 design docs → Phase 3 app rewrite → Phase 4 documentation).
 
 ## Design Rationale and Iterations
-Document key design decisions, alternatives considered and the rationale for the chosen approach. This section ensures traceability and supports the evaluation phase.
 
-* **Design alternatives**: What alternative designs were considered? Sketches, mockups or descriptions of discarded approaches can be valuable for documentation.
-* **Design rationale**: Why was the chosen design preferred? Reference the project objectives, user needs (jobs, pains, gains) and the three value dimensions (cognitive, communicative, experiential).
-* **Iteration history**: If the design evolved through multiple iterations (e.g. based on informal feedback or internal reviews), briefly describe the key changes and their motivation.
+The current design is the result of one major iteration. The first prototype was a five-chapter Streamlit dashboard with a global sidebar, a choropleth, a Sankey-substitute, a grouped-metal bar, a scatter, and a verdict block. `diagnosis.md` documents why that prototype was scrapped: it had no protagonist, no rising tension, no defensible conclusion, and several of its charts were misleading because the dataset has a 2017 coverage break that the visuals did not enforce.
+
+The replacement design — the five-beat narrative described above and in `narrative_design.md` — was chosen because:
+
+- **Persona alignment** (rubric row 4). Lena's job-to-be-done was *"feel confident I'm making an informed decision rather than just following social media"*. A scrollytelling argument with a sharp verdict serves that better than a dashboard. Thomas's job was *"find country-level evidence that gold acts as an inflation hedge"* — the new design gives him the answer the data actually supports (which is *no, the consumer story is not in the data; the central-bank story is*), with the citations he needs to defend it.
+- **Cognitive value** (the first of @segel_narrative_2010's three value dimensions). Each beat does exactly one thing; the cognitive load per scroll is one comparison.
+- **Communicative value.** The verdict is retainable. "China doubled its gold imports the year Russia got sanctioned" is one sentence with two specific facts; a reader can re-tell it.
+- **Experiential value.** The dark editorial style + serif headlines + single accent colour create a reading experience that feels closer to long-form journalism than to BI dashboards — the medium the personas actually consume.
+
+Discarded alternatives:
+
+- **Switzerland-as-protagonist.** Considered and rejected in `narrative_design.md` §2. Cleaner panel, but lower surprise per beat; the Swiss story is "big number stays big number".
+- **Long-history (1988–2024) panel.** Rejected; the pre-2017 Kaggle dump is missing major reporters, so any global aggregate before 2017 is a coverage artefact, not a flow.
+- **Choropleth as Beat 3.** Considered; rejected in favour of the ranked bar. A map shows *where*, but the argument needs *how much* and *coloured by inflation* — both encoded more sharply by a ranked, coloured bar.
+- **`streamlit-scrollytelling` / scrollama.js JS component.** Considered. Rejected because the design as written does not need scroll-bound JS — the visual rhythm (one beat per `<hr>`) is enough to produce the felt scroll-narrative without external dependencies.
 
 ## Conclusions and Next Steps
-Summarise the key design decisions and their expected impact on the project objectives. Identify open questions, known limitations of the current prototype and topics to be addressed in the [Evaluation](evaluation.qmd) phase.
+
+The design implements the narrative-design specification end-to-end. The single-page beat structure, the muted-by-default colour discipline, the on-chart annotation strategy, and the lack of in-narrative widgets are the four discipline points that distinguish this from a dashboard.
+
+Open items handed to the [Evaluation](evaluation.qmd) phase:
+
+- The 30-second-comprehension target (does a reader understand the driving question within 30 s of arrival?) is a heuristic claim — it should be tested informally with at least three readers matching the personas.
+- The one-sentence retention target (can a reader retell the verdict the day after?) is the second heuristic claim worth testing.
+- The data report's documented 2017 break and Türkiye encoding issue should be re-confirmed in the deployed build to ensure no regression.
+
+## References {.unnumbered}
+
+::: {#refs}
+:::

@@ -8,47 +8,42 @@ format:
 
 ## Context and Scope
 
-Gold has been called a safe haven for centuries — when inflation rises, the advice is always the same: buy gold, protect your wealth. That narrative got louder in 2024–2025 when the gold price broke $3,000 per ounce for the first time, right after the 2022–2023 inflation wave. But most "gold is safe" analyses only look at price charts. What actually happens to physical gold trade flows when inflation rises? Do high-inflation countries import more gold? Does the mix between gold, silver, and platinum shift during economic stress?
+The cliché has held for decades: when inflation rises, the advice is always the same — buy gold. That advice was put under the strongest test in forty years in 2022, when Headline CPI hit double digits across most of the OECD, surged past 100% in several emerging economies, and the gold price began the climb that would carry it past \$3,000 per ounce in 2024.
 
-Switzerland makes this particularly interesting: around 70% of the world's refined gold passes through Swiss refineries, despite Switzerland having no gold mines of its own.
+The project takes a single question seriously:
 
-The project addresses these questions:
+> **When inflation hit in 2022, who actually bought the gold?**
 
-1. Where does gold flow during high-inflation periods, and do those flows change direction?
-2. Do countries with higher inflation consistently import more gold — by weight and by value?
-3. Is gold special among precious metals, or do silver and platinum show the same patterns?
-4. What role does Switzerland play as a refining hub, and does it grow stronger during global economic stress?
-5. Which type of inflation — food, energy, or core CPI — has the strongest link to gold trade activity?
+The question is deliberately phrased as a whodunit. The conventional answer — *consumers in high-inflation countries, hedging their savings* — is something the project's joined UN Comtrade + World Bank inflation dataset can either confirm or disconfirm at the country-year level. As the data report and the narrative-design document show, **the data disconfirms it**. The countries with the highest 2022 inflation (Venezuela, Lebanon, Sudan, Zimbabwe) imported almost no gold; the largest importers (Switzerland, China, the UAE, the UK, India) were almost all low-inflation economies. The project's central reveal sits in one country's data: **China's gold imports doubled in 2022, the same year Russia's foreign reserves were frozen by the G7**.
 
-The final product will be an interactive scrollytelling website created with streamlit.
+The final product is a single-page scrollytelling narrative, built in Streamlit, that walks a reader through this argument in five beats. The full beat-by-beat design is documented in `docs/narrative_design.md`. A Phase-1 diagnosis of the earlier dashboard-style draft and why it was scrapped is in `docs/diagnosis.md`.
 
 ## Project Objectives and Success Criteria
 
-- Enable users to explore how precious metals trade is distributed across countries, commodity types, and time periods.
+The objectives below are written as **story** outcomes, not as inventory checklists. They are derived from the personas in §3 and from the Bewertungsraster rubric criteria 4 (*Konsistenz mit Projektzielen und Bedürfnissen der Zielgruppe(n)*) and 5 (*Verständlichkeit*).
 
-- Enable users to assess the relationship between a country's inflation rate and its gold import activity.
-
-- Enable users to compare gold, silver, and platinum as traded commodities during inflationary periods.
-
-- Deliver a coherent data story with a clear narrative arc — not just a set of charts, but a guided journey with a beginning, rising tension, and a conclusion.
-
-- Ensure full reproducibility from the GitHub repository using Quarto.
+- **Drive a reader through one argument in under five minutes.** The reader should understand the central question within 30 seconds and leave with a one-sentence answer they can repeat the next day.
+- **Make the disconfirmation visible.** A reader who scrolls past Beat 2 should *see*, on the chart, that high-inflation countries did not buy gold in 2022.
+- **Land the political-economy reveal in Beat 4.** The China doubling and its 2022 context (Russian reserve freeze, World Gold Council's record 1,136 tons of central-bank purchases) should be legible from the chart and its annotations, without the reader needing to read the prose first.
+- **Commit to a position.** The verdict (Beat 5) is a single, defensible claim — *gold's safe haven is now the sovereign's, not the citizen's* — supported by three specific numbers.
+- **Stay reproducible.** Every visible number in the app traces to either the joined dataset described in the Data Report or to an explicit external citation (World Gold Council). No invented insights.
 
 ### Success Criteria
 
-| Criterion | Minimum |
+The earlier draft of this Charta listed criteria that measured *ingredients* ("≥ 4 chart types"). Those have been replaced with criteria that measure whether the story works:
+
+| Criterion | How we measure it |
 |---|---|
-| Chart variety | ≥ 4 chart types |
-| Interactivity | ≥ 2 interactive elements |
-| Dataset size | ≥ 500 rows combined |
-| Variable balance | ≥ 3 categorical + 3 numerical |
-| Narrative chapters | ≥ 3 chapters with transitions |
-| Reproducibility | Runs from repo following setup instructions |
-| Presentation | Within ±2 min of 10-minute limit |
+| Driving question is understood in 30 s | Heuristic check on Beat 1 + first lede paragraph |
+| Disconfirmation is visible without prose | Beat 2 chart must show the inflation/imports gap on its own |
+| One-sentence retention | Reader test (informal, n ≈ 3) on Verdict block |
+| Source-traceable numbers | Every number in the app is either in the dataset or has an inline citation |
+| Reproducibility | `uv sync && uv run streamlit run deployment/app.py` works from a clean clone |
+| Variety + dataset size (rubric carry-over) | 4 chart types, 2017–2024 panel, ≥ 50 000 rows, 6+ categorical / numerical columns |
 
 ### Out of Scope
 
-Price prediction, investment advice, real-time data, and individual investor analysis are all out of scope. This is a historical, country-level analysis — not a forecasting or recommendation tool.
+Price prediction, investment advice, real-time data, individual-investor analysis, and any analysis of ETF or jewellery demand are all out of scope. We are looking at **physical gold imports across borders, country-year, 2017–2024**. The dataset has a documented break at 2017 (see Data Report §4); the visible story respects that break and does not cross it.
 
 ## Stakeholder Analysis
 
@@ -106,25 +101,24 @@ The project runs alongside 7 other modules, so available time per person is limi
 
 ## Visualization Concept
 
-The product is an interactive scrollytelling website, a long-form data story where visualizations appear as the user scrolls. We chose this format over a dashboard because it guides users through one insight at a time and creates a clear narrative arc.
+The product is a single-page scrollytelling narrative built in Streamlit. The reader's only control is the scroll wheel; there is no sidebar, no global filter, and no widget inside the narrative. State changes are bound to scroll position. Visual emphasis (a 2022 highlight, a China bar, a Venezuela near-zero) is hard-coded by the author, not by the reader.
 
-**Introduction**  
-Three animated key metrics count up on scroll: the record gold price ($3,000/oz), the peak inflation rate from the 2022–23 wave, and total precious metals trade volume in the dataset. No chart yet, just numbers big enough to set the scale before the analysis begins.
+The five beats below replace the earlier draft's five chapters. The full visual specification — colour, axis, annotation — lives in `viz_design_report.qmd`; what follows is the narrative role of each beat.
 
-**Where Does Gold Flow?**  
-A choropleth world map with a light-to-dark gold color scale shows trade volume by country. Most people assume gold moves from mines to banks. The map immediately reveals something stranger: Switzerland, with zero gold mines, lights up as one of the world's dominant gold hubs. Users can filter by country and hover for exact trade values.
+**Beat 1 — Buy gold.**
+A line chart of global gold imports from 2017 to 2024. Only the 2022 point is highlighted; the rest of the line is muted. An on-chart annotation calls out the \$541 B figure ("the year inflation peaked"). The beat sets up the safe-haven cliché so the next beat can break it.
 
-**When Inflation Strikes**   
-A scatter plot (x: inflation rate, y: gold imports on a log scale, color: economy type) tests the central hypothesis directly. The log scale prevents large economies from swamping the pattern; a trend line gives the at-a-glance answer. An annotated line chart of gold trade volume over time runs alongside it, with events like the 2008 financial crisis marked directly on the chart.
+**Beat 2 — But not in Caracas.**
+A hand-curated horizontal bar chart of 11 countries — six high-inflation (Venezuela, Lebanon, Sudan, Zimbabwe, Argentina, Iran) and five low-inflation (Switzerland, China, UAE, India, UK). Y-axis sorted by 2022 Headline CPI; X-axis is gold imports in USD millions. The high-inflation countries have invisible bars; the low-inflation countries have huge ones. The visual disconfirms the consumer-inflation story without the prose needing to do the work.
 
-**Gold vs. Silver vs. Platinum**  
-A grouped bar chart compares trade volumes for all three metals across years. A toggle between absolute values and percentage shares lets users switch between scale and composition. The question: is gold special, or do all precious metals move together during economic stress?
+**Beat 3 — Then who?**
+A ranked bar chart of the top eight 2022 gold importers, coloured by Headline CPI. The reader sees that four of the top five had inflation below 6%. The beat closes the door on the consumer reading and opens the next question.
 
-**The Swiss Connection**  
-A Sankey flow diagram shows raw gold flowing into Switzerland from mining nations and refined gold flowing out to demand centers, with flow widths encoding trade volume. Around 70% of the world's refined gold passes through Swiss refineries; the Sankey makes that number physical rather than abstract.
+**Beat 4 — China doubled down.**
+A bar chart of China's gold imports, 2017–2024. The 2022 bar is highlighted; on-chart annotations call out the COVID-2020 collapse and the 2022 +116% jump, with the latter explicitly framed as coinciding with the G7 freeze of Russian foreign reserves. The 1,136-ton World Gold Council central-bank purchase figure (the highest since 1950) appears in the chart caveat as an external citation.
 
-**The Verdict**  
-Three to four large summary metric cards answer the research questions directly. No new charts, just the clearest possible summary of what the data showed. Skimmers get their conclusion; the previous chapters back it up.
+**Beat 5 — The verdict.**
+A three-number recap (+116 % / ≈ \$0 / 1,136 t) followed by one sentence: *gold's safe-haven role is alive — it is just no longer the citizen's hedge against inflation, but the sovereign's hedge against the dollar*. No new chart. The numbers are the chart.
 
 ## Project Plan
 

@@ -7,7 +7,7 @@ language:
   section-title-appendices: "Appendix"
 
 website:
-  title: "Sample Project"
+  title: "Follow the Gold"
   search: true
   sidebar:
     style: "floating"
@@ -18,6 +18,10 @@ website:
       - data_report.qmd
       - viz_design_report.qmd
       - evaluation.qmd
+      - section: "Process Memos"
+        contents:
+          - diagnosis.md
+          - narrative_design.md
       - meeting_notes.qmd
 
 format:

@@ -6,7 +6,9 @@ format:
     toc-depth: 3
 ---
 
-This documentation describes the conception, development and evaluation of a data visualisation product. The goal of the project is to ...
+This documentation describes the conception, development and evaluation of *Follow the Gold*, a single-page scrollytelling narrative that asks **who actually bought the gold in 2022 — the year inflation peaked at its highest level in forty years**. The live product is at <https://gold-flows.streamlit.app/>; the source for both the app and this documentation is at <https://github.com/VDSS-FS26-DS25A/follow-the-gold>.
+
+The argument the app makes — that the 2022 gold-import surge is sovereign de-dollarisation, not consumer inflation hedging — emerged from a Phase 1 diagnosis of an earlier dashboard-style draft. That memo (`diagnosis.md`) and the beat-by-beat narrative design that followed it (`narrative_design.md`) are linked from the sidebar under *Process Memos*.
 
 ![The vizualization product development process](pics/vizproductprocess.png){#fig-vizprocess}
 
