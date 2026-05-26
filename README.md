@@ -22,32 +22,6 @@ The app walks a reader through this argument in five beats:
 5. **The verdict.** Gold's safe-haven role is alive, but it is now the sovereign's hedge against the dollar, not the citizen's hedge against inflation.
 
 
-## Data Sources
-
-| Dataset | Source | Coverage |
-|---|---|---|
-| UN Global Commodity Trade Statistics | Kaggle (filtered to HS codes 7106–7112) | 1988–2016, ~10,000–50,000 rows after filtering |
-| World Bank Global Inflation Database | Ha, Kose & Ohnsorge (2023) | 1970–2025, 209 countries × 6 inflation types |
-
-
-## Project Structure
-
-```
-follow-the-gold/
-├── data/              # Raw inputs + processed CSV used by the app
-│   ├── raw/
-│   ├── processed/
-│   ├── build_dataset.py
-│   └── country_mapping.py
-├── deployment/        # Streamlit app (app.py + requirements.txt)
-├── src/               # Shared utilities
-└── docs/              # Quarto documentation (submitted artefacts)
-    ├── project_charta.qmd
-    ├── data_report.qmd
-    └── summaries/     # Background research notes (not rendered to the site)
-```
-
-
 ## Setup
 
 **Requirements:** [uv](https://docs.astral.sh/uv/getting-started/installation/), [Quarto](https://quarto.org/docs/get-started/)
@@ -69,7 +43,6 @@ uv add <package>
 uv remove <package>
 ```
 
-
 ## Documentation (Quarto)
 
 Source files are in `docs/`. To build and deploy:
@@ -82,15 +55,6 @@ uv run quarto render    # builds to docs/build/, updates docs/_freeze
 The documentation is deployed to GitHub Pages via GitHub Actions on every push to `main`. Python computations are cached in `docs/_freeze` (checked in), so the Actions runner does not need Python.
 
 **Initial setup (once):** Go to **Settings > Pages** in the GitHub repo and set the source to **GitHub Actions**.
-
-
-## Team
-
-| Name | Role | Contact |
-|---|---|---|
-| Valentin Schwarz | Data Engineering: pipeline, repo structure | vschwarz@ik.me |
-| Aisosa Omokaro | App Infrastructure: inflation data, Streamlit deployment | aisosashina@gmail.com |
-| Thiveja Thirukumar | Documentation: research, data report, project charter | thiveja.thirukumar@gmail.com |
 
 
 ## License
