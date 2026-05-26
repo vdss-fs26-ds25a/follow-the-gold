@@ -9,13 +9,13 @@ import plotly.graph_objects as go
 st.set_page_config(
     page_title="Follow the Gold — Who actually bought it in 2022?",
     page_icon="🪙",
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="collapsed",
 )
 
 
 # ──────────────────────────────────────────────────────────────────────────
-# Styling — dark editorial look, no sidebar, narrow reading column
+# Styling — light editorial look, no sidebar, wide reading column
 # ──────────────────────────────────────────────────────────────────────────
 st.markdown(
     """
@@ -27,32 +27,35 @@ st.markdown(
 }
 
 html, body, [data-testid="stAppViewContainer"] {
-    background-color: #0b0d11 !important;
-    color: #c0ab9a;
+    background-color: #faf8f3 !important;
+    color: #1a1a1a;
     font-family: 'DM Sans', sans-serif;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
 
 .block-container {
-    max-width: 760px;
+    max-width: 920px;
+    margin: 0 auto;
     padding-top: 3rem;
     padding-bottom: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
-    color: #d3b099;
-    font-size: 2.6rem;
+    color: #1a1a1a;
+    font-size: 2.8rem;
     line-height: 1.1;
 }
 
 h2 {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
-    color: #d3b099;
-    font-size: 1.9rem;
+    color: #1a1a1a;
+    font-size: 2rem;
     margin-top: 0.5rem;
 }
 
@@ -61,24 +64,24 @@ h2 {
     font-size: 0.7rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #6f6f70;
+    color: #8a6534;
     margin-bottom: 12px;
 }
 
 .lede {
     font-size: 1.05rem;
     line-height: 1.7;
-    color: #c0ab9a;
+    color: #2a2a2a;
     margin: 1rem 0 1.8rem;
 }
 
-.lede b { color: #d3b099; }
+.lede b { color: #1a1a1a; font-weight: 600; }
 
 .caveat {
     font-size: 0.78rem;
-    color: #6f6f70;
+    color: #6b6b6b;
     font-style: italic;
-    border-left: 2px solid #1c2029;
+    border-left: 2px solid #d4d2cc;
     padding-left: 12px;
     margin: 0.4rem 0 1rem;
     line-height: 1.55;
@@ -94,7 +97,7 @@ h2 {
 }
 
 .recap-label {
-    color: #c0ab9a;
+    color: #2a2a2a;
     font-size: 0.88rem;
     text-align: center;
     line-height: 1.5;
@@ -103,9 +106,9 @@ h2 {
 
 .verdict {
     font-family: 'Playfair Display', serif;
-    font-size: 1.35rem;
+    font-size: 1.4rem;
     line-height: 1.55;
-    color: #d3b099;
+    color: #1a1a1a;
     text-align: center;
     margin: 2.5rem 0 1rem;
     padding: 0 0.5rem;
@@ -115,16 +118,16 @@ h2 {
     font-family: 'DM Sans', sans-serif;
     font-size: 1rem;
     line-height: 1.65;
-    color: #c0ab9a;
+    color: #2a2a2a;
     text-align: center;
     margin: 0.5rem 1rem 2rem;
 }
 
-hr { border: none; border-top: 1px solid #1c2029; margin: 3rem 0; }
+hr { border: none; border-top: 1px solid #e0ddd6; margin: 3rem 0; }
 
 .sources {
     font-size: 0.72rem;
-    color: #6f6f70;
+    color: #6b6b6b;
     text-align: center;
     line-height: 1.7;
 }
@@ -150,34 +153,37 @@ gold_imp = df[(df["metal_group"] == "Gold") & (df["flow"] == "Import")]
 
 
 # ──────────────────────────────────────────────────────────────────────────
-# Plot defaults
+# Plot defaults — light editorial palette
 # ──────────────────────────────────────────────────────────────────────────
-GOLD = "#d3b099"
-GOLD_BRIGHT = "#e8c19f"
-MUTED = "#3a3d44"
-RED = "#c25f3b"
-BLUE = "#5298c2"
-TEXT_DIM = "#6f6f70"
-TEXT = "#c0ab9a"
+BG = "#faf8f3"
+GOLD = "#b88a2e"
+GOLD_BRIGHT = "#d4a017"
+MUTED = "#c8c5bc"
+RED = "#b8472a"
+BLUE = "#2e6e9b"
+TEXT_DIM = "#6b6b6b"
+TEXT = "#1a1a1a"
+GRID = "#e0ddd6"
 
 
-def style_fig(fig, height=400):
+def style_fig(fig, height=420):
     fig.update_layout(
-        paper_bgcolor="#0b0d11",
-        plot_bgcolor="#0b0d11",
+        paper_bgcolor=BG,
+        plot_bgcolor=BG,
         font_family="DM Sans",
         font_color=TEXT,
         font_size=12,
-        title_font_color=GOLD,
+        title_font_color=TEXT,
         title_font_family="Playfair Display",
-        title_font_size=15,
+        title_font_size=16,
         margin=dict(l=10, r=10, t=50, b=40),
         height=height,
         showlegend=False,
-        hoverlabel=dict(bgcolor="#13161f", font_color=TEXT, font_family="DM Sans"),
+        hoverlabel=dict(bgcolor="#ffffff", font_color=TEXT, font_family="DM Sans",
+                        bordercolor=GRID),
     )
-    fig.update_xaxes(gridcolor="#1c2029", zerolinecolor="#1c2029", linecolor="#1c2029")
-    fig.update_yaxes(gridcolor="#1c2029", zerolinecolor="#1c2029", linecolor="#1c2029")
+    fig.update_xaxes(gridcolor=GRID, zerolinecolor=GRID, linecolor=GRID)
+    fig.update_yaxes(gridcolor=GRID, zerolinecolor=GRID, linecolor=GRID)
     return fig
 
 
@@ -348,7 +354,7 @@ fig3.add_trace(
         orientation="h",
         marker=dict(
             color=top22["cpi"].fillna(top22["cpi"].mean()),
-            colorscale=[[0, BLUE], [0.5, "#c0ab9a"], [1, RED]],
+            colorscale=[[0, BLUE], [0.5, "#bfa97a"], [1, RED]],
             cmin=0, cmax=10,
             line=dict(width=0),
             colorbar=dict(
@@ -448,13 +454,13 @@ st.markdown("## The verdict.")
 
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.markdown('<div class="recap-num" style="color:#d3b099">+116%</div>', unsafe_allow_html=True)
+    st.markdown('<div class="recap-num" style="color:#b88a2e">+116%</div>', unsafe_allow_html=True)
     st.markdown('<div class="recap-label">China\'s gold imports<br>2021 → 2022</div>', unsafe_allow_html=True)
 with c2:
-    st.markdown('<div class="recap-num" style="color:#c25f3b">≈ $0</div>', unsafe_allow_html=True)
+    st.markdown('<div class="recap-num" style="color:#b8472a">≈ $0</div>', unsafe_allow_html=True)
     st.markdown('<div class="recap-label">Imported by Venezuela<br>in 2022 (CPI 201%)</div>', unsafe_allow_html=True)
 with c3:
-    st.markdown('<div class="recap-num" style="color:#d3b099">1,136 t</div>', unsafe_allow_html=True)
+    st.markdown('<div class="recap-num" style="color:#b88a2e">1,136 t</div>', unsafe_allow_html=True)
     st.markdown('<div class="recap-label">Central-bank gold buying<br>worldwide, 2022 —<br>highest since 1950</div>', unsafe_allow_html=True)
 
 st.markdown(
