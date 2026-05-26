@@ -170,7 +170,7 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <tr><td>Background research: 2 articles on gold as investment + Switzerland as refining hub, note key facts</td><td><span class="pp-tag tt">Thivi</span></td><td>12.04.26</td></tr>
 <tr><td>Background research: 2 articles on 2022–23 inflation wave + central banks and gold</td><td><span class="pp-tag tv">Vale</span></td><td>12.04.26</td></tr>
 <tr><td>Background research: 2 articles on geopolitics + gold, BRICS vs. dollar</td><td><span class="pp-tag ta">Aisosa</span></td><td>12.04.26</td></tr>
-<tr><td>Meeting: share research findings, identify top-10 gold trading countries, confirm chapter assignments</td><td><span class="pp-tag tall">All</span></td><td>13.04.26</td></tr>
+<tr><td>Meeting: share research findings, identify top-10 gold trading countries, confirm beat ownership across the team</td><td><span class="pp-tag tall">All</span></td><td>13.04.26</td></tr>
 </table>
 </div>
 
@@ -182,10 +182,10 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <tr><td>Build ISO-3166 country code mapping (which names match, which need manual fixes)</td><td><span class="pp-tag tt">Thivi</span></td><td>15.04.26</td></tr>
 <tr><td>Join both datasets on country code + year, save combined CSV</td><td><span class="pp-tag tv">Vale</span></td><td>16.04.26</td></tr>
 <tr><td>Data quality check: missing values, outliers, plausibility</td><td><span class="pp-tag ta">Aisosa</span></td><td>16.04.26</td></tr>
-<tr><td>First exploratory chart: choropleth world map (gold trade per country) in Plotly</td><td><span class="pp-tag tv">Vale</span></td><td>18.04.26</td></tr>
-<tr><td>First exploratory chart: bar chart (gold vs. silver vs. platinum total volume) in Plotly</td><td><span class="pp-tag ta">Aisosa</span></td><td>18.04.26</td></tr>
-<tr><td>First exploratory chart: line chart (gold trade over time) in Plotly</td><td><span class="pp-tag tt">Thivi</span></td><td>18.04.26</td></tr>
-<tr><td>Align on story arc: 5 chapters with core questions and transitions</td><td><span class="pp-tag tall">All</span></td><td>18.04.26</td></tr>
+<tr><td>EDA chart: global gold imports time series 2017 to 2024 in Plotly</td><td><span class="pp-tag tv">Vale</span></td><td>18.04.26</td></tr>
+<tr><td>EDA chart: inflation vs gold imports comparison across countries in 2022</td><td><span class="pp-tag ta">Aisosa</span></td><td>18.04.26</td></tr>
+<tr><td>EDA chart: China gold imports 2017 to 2024 to verify the doubling story</td><td><span class="pp-tag tt">Thivi</span></td><td>18.04.26</td></tr>
+<tr><td>Align on driving question (who actually bought the gold in 2022?) and the five narrative beats with their transitions</td><td><span class="pp-tag tall">All</span></td><td>18.04.26</td></tr>
 <tr><td>Start data report: document data sources and cleaning steps</td><td><span class="pp-tag tt">Thivi</span></td><td>20.04.26</td></tr>
 <tr><td>Review meeting: discuss first charts, give feedback</td><td><span class="pp-tag tall">All</span></td><td>20.04.26</td></tr>
 </table>
@@ -193,19 +193,19 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 
 <!-- Phase 3 -->
 <div class="pp-phase">
-<div class="pp-ph"><div class="pp-title">Phase 3: Build Core Visualizations</div><div class="pp-date">21.04.–27.04.26</div></div>
+<div class="pp-ph"><div class="pp-title">Phase 3: Build the Five Beats</div><div class="pp-date">21.04.–27.04.26</div></div>
 <table class="pp-table">
 <tr><th>Task</th><th>Who</th><th>By</th></tr>
-<tr><td>Ch. 1 "Where Does Gold Flow?": aggregate data, build choropleth, write context text + insight box</td><td><span class="pp-tag tv">Vale</span></td><td>24.04.26</td></tr>
-<tr><td>Ch. 2 "When Inflation Strikes": prep data, build scatter plot with trend line, write text + insight</td><td><span class="pp-tag tv">Vale</span></td><td>27.04.26</td></tr>
-<tr><td>Ch. 3 "Gold vs. Silver vs. Platinum": pivot data, build grouped bar chart, write text + insight</td><td><span class="pp-tag ta">Aisosa</span></td><td>24.04.26</td></tr>
-<tr><td>Ch. 4 "The Swiss Connection": extract Switzerland trade partners, build Sankey, write text + insight</td><td><span class="pp-tag ta">Aisosa</span></td><td>27.04.26</td></tr>
-<tr><td>Intro: animated key metrics (gold price record, inflation peak, trade volume), write hero text</td><td><span class="pp-tag tt">Thivi</span></td><td>24.04.26</td></tr>
-<tr><td>Ch. 5 "The Verdict": calculate summary numbers, build metric cards, write conclusion text</td><td><span class="pp-tag tt">Thivi</span></td><td>27.04.26</td></tr>
-<tr><td>Code review: each person reviews the other two's chapters, leave feedback on GitHub</td><td><span class="pp-tag tall">All</span></td><td>27.04.26</td></tr>
+<tr><td>Beat 1 "Buy gold.": global gold imports line chart 2017 to 2024 with 2022 highlight and on-chart annotation; write lede + caveat</td><td><span class="pp-tag tv">Vale</span></td><td>24.04.26</td></tr>
+<tr><td>Beat 2 "But not in Caracas.": curated 11-country bar chart (high vs low inflation), linear axis, country labels with CPI on chart; write lede + caveat</td><td><span class="pp-tag tv">Vale</span></td><td>27.04.26</td></tr>
+<tr><td>Beat 3 "Then who?": top-8 importers 2022 ranked bar coloured by CPI ramp; write lede + caveat</td><td><span class="pp-tag ta">Aisosa</span></td><td>24.04.26</td></tr>
+<tr><td>Beat 4 "China doubled down.": China gold imports bar chart 2017 to 2024 with COVID + 2022 on-chart annotations and World Gold Council citation in caveat; write lede</td><td><span class="pp-tag ta">Aisosa</span></td><td>27.04.26</td></tr>
+<tr><td>Headline + opening lede: page title and 30-second-comprehension setup paragraph</td><td><span class="pp-tag tt">Thivi</span></td><td>24.04.26</td></tr>
+<tr><td>Beat 5 "The verdict.": three-number recap (+116%, ≈ $0, 1,136 t) + one-sentence verdict; no new chart</td><td><span class="pp-tag tt">Thivi</span></td><td>27.04.26</td></tr>
+<tr><td>Code review: each person reviews the other two's beats, leave feedback on GitHub</td><td><span class="pp-tag tall">All</span></td><td>27.04.26</td></tr>
 </table>
 
-<div class="pp-ms"><div class="pp-diamond" style="background:#e53935"></div>All chapters done (data + charts + text)<div class="pp-ms-date">27.04.26</div></div>
+<div class="pp-ms"><div class="pp-diamond" style="background:#e53935"></div>All five beats done (data, chart, prose, on-chart annotations)<div class="pp-ms-date">27.04.26</div></div>
 </div>
 
 <!-- Phase 4 -->
@@ -213,13 +213,13 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <div class="pp-ph"><div class="pp-title">Phase 4: Assemble Streamlit App</div><div class="pp-date">28.04.–04.05.26</div></div>
 <table class="pp-table">
 <tr><th>Task</th><th>Who</th><th>By</th></tr>
-<tr><td>Set up app.py base structure (navigation, page layout, styling/theme)</td><td><span class="pp-tag ta">Aisosa</span></td><td>30.04.26</td></tr>
-<tr><td>Integrate chapters 1 + 2 into Streamlit (embed charts, add filters/sliders)</td><td><span class="pp-tag tv">Vale</span></td><td>02.05.26</td></tr>
-<tr><td>Integrate chapters 3 + 4 into Streamlit (embed charts, add toggles/filters)</td><td><span class="pp-tag ta">Aisosa</span></td><td>02.05.26</td></tr>
-<tr><td>Integrate intro + chapter 5 into Streamlit (metric cards, conclusion section)</td><td><span class="pp-tag tt">Thivi</span></td><td>02.05.26</td></tr>
+<tr><td>Set up app.py base structure: single-column layout, no sidebar, light editorial theme (Playfair Display + DM Sans), Plotly defaults</td><td><span class="pp-tag ta">Aisosa</span></td><td>30.04.26</td></tr>
+<tr><td>Integrate Beats 1 + 2 into Streamlit (Plotly charts + on-chart annotations, lede prose, caveats)</td><td><span class="pp-tag tv">Vale</span></td><td>02.05.26</td></tr>
+<tr><td>Integrate Beats 3 + 4 into Streamlit (Plotly charts + on-chart annotations, lede prose, caveats)</td><td><span class="pp-tag ta">Aisosa</span></td><td>02.05.26</td></tr>
+<tr><td>Integrate headline + Beat 5 verdict (three-number recap block + verdict sentence)</td><td><span class="pp-tag tt">Thivi</span></td><td>02.05.26</td></tr>
 <tr><td>Write requirements.txt and README with setup instructions</td><td><span class="pp-tag tv">Vale</span></td><td>03.05.26</td></tr>
 <tr><td>Deploy app to Streamlit Cloud and test together</td><td><span class="pp-tag ta">Aisosa</span></td><td>04.05.26</td></tr>
-<tr><td>Proofread all texts and insight boxes in the app</td><td><span class="pp-tag tt">Thivi</span></td><td>04.05.26</td></tr>
+<tr><td>Proofread all ledes and caveats in the app</td><td><span class="pp-tag tt">Thivi</span></td><td>04.05.26</td></tr>
 </table>
 
 <div class="pp-ms"><div class="pp-diamond" style="background:#e53935"></div>Streamlit app live<div class="pp-ms-date">04.05.26</div></div>
@@ -230,13 +230,13 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <div class="pp-ph"><div class="pp-title">Phase 5: Polish and Documentation</div><div class="pp-date">05.05.–11.05.26</div></div>
 <table class="pp-table">
 <tr><th>Task</th><th>Who</th><th>By</th></tr>
-<tr><td>Fix bugs in chapters 1 + 2, check colors and tooltips</td><td><span class="pp-tag tv">Vale</span></td><td>07.05.26</td></tr>
-<tr><td>Fix bugs in chapters 3 + 4, test responsive design</td><td><span class="pp-tag ta">Aisosa</span></td><td>07.05.26</td></tr>
-<tr><td>Fix bugs in intro + chapter 5, optimize load time</td><td><span class="pp-tag tt">Thivi</span></td><td>07.05.26</td></tr>
-<tr><td>Comment and clean up code (own chapters)</td><td><span class="pp-tag tall">All</span></td><td>09.05.26</td></tr>
-<tr><td>Finalize data report: Vale writes ch. 1+2, Aisosa ch. 3+4, Thivi ch. 5+intro</td><td><span class="pp-tag tall">All</span></td><td>09.05.26</td></tr>
-<tr><td>Finalize project charter and check on GitHub Pages</td><td><span class="pp-tag tt">Thivi</span></td><td>09.05.26</td></tr>
-<tr><td>Coaching session: get feedback from instructors</td><td><span class="pp-tag tall">All</span></td><td>11.05.26</td></tr>
+<tr><td>Polish Beats 1 + 2: linear-axis sanity check on Beat 2, label legibility, annotation positions</td><td><span class="pp-tag tv">Vale</span></td><td>07.05.26</td></tr>
+<tr><td>Polish Beats 3 + 4: CPI colour ramp, China bar highlight, on-chart annotation arrows, responsive width</td><td><span class="pp-tag ta">Aisosa</span></td><td>07.05.26</td></tr>
+<tr><td>Polish headline + Beat 5: three-number block alignment, verdict typography, page load time</td><td><span class="pp-tag tt">Thivi</span></td><td>07.05.26</td></tr>
+<tr><td>Comment and clean up code (own beats)</td><td><span class="pp-tag tall">All</span></td><td>09.05.26</td></tr>
+<tr><td>Finalize data report (raw and processed catalogues, EDA, scope note for 2017 to 2024)</td><td><span class="pp-tag tall">All</span></td><td>09.05.26</td></tr>
+<tr><td>Finalize project charter (driving question, beat rationales, personas) and check the GitHub Pages build</td><td><span class="pp-tag tt">Thivi</span></td><td>09.05.26</td></tr>
+<tr><td>Coaching session: get feedback from instructors on the five-beat narrative</td><td><span class="pp-tag tall">All</span></td><td>11.05.26</td></tr>
 </table>
 </div>
 
@@ -245,12 +245,12 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <div class="pp-ph"><div class="pp-title">Phase 6: Presentation</div><div class="pp-date">12.05.–18.05.26</div></div>
 <table class="pp-table">
 <tr><th>Task</th><th>Who</th><th>By</th></tr>
-<tr><td>Slides: intro + research questions + data sources (slides 1–5)</td><td><span class="pp-tag tt">Thivi</span></td><td>14.05.26</td></tr>
-<tr><td>Slides: live demo prep chapters 1–2 (slides 6–8)</td><td><span class="pp-tag tv">Vale</span></td><td>14.05.26</td></tr>
-<tr><td>Slides: live demo prep chapters 3–4 + conclusion (slides 9–12)</td><td><span class="pp-tag ta">Aisosa</span></td><td>14.05.26</td></tr>
+<tr><td>Slides: driving question + data sources + scope (slides 1 to 5)</td><td><span class="pp-tag tt">Thivi</span></td><td>14.05.26</td></tr>
+<tr><td>Slides: live demo of Beats 1 + 2 setup and disconfirmation (slides 6 to 8)</td><td><span class="pp-tag tv">Vale</span></td><td>14.05.26</td></tr>
+<tr><td>Slides: live demo of Beats 3 + 4 pivot and reveal, plus Beat 5 verdict (slides 9 to 12)</td><td><span class="pp-tag ta">Aisosa</span></td><td>14.05.26</td></tr>
 <tr><td>Rehearsal 1: full run-through, time it</td><td><span class="pp-tag tall">All</span></td><td>16.05.26</td></tr>
 <tr><td>Rehearsal 2: incorporate feedback, run again</td><td><span class="pp-tag tall">All</span></td><td>17.05.26</td></tr>
-<tr><td>Prepare answers to likely instructor questions (each person covers their own chapters)</td><td><span class="pp-tag tall">All</span></td><td>18.05.26</td></tr>
+<tr><td>Prepare answers to likely instructor questions (each person covers their own beats)</td><td><span class="pp-tag tall">All</span></td><td>18.05.26</td></tr>
 </table>
 </div>
 
@@ -259,7 +259,7 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <div class="pp-ph"><div class="pp-title">Phase 7: Final Check and Submission</div><div class="pp-date">19.05.–20.05.26</div></div>
 <table class="pp-table">
 <tr><th>Task</th><th>Who</th><th>By</th></tr>
-<tr><td>Final app test: click through all chapters, check all filters</td><td><span class="pp-tag ta">Aisosa</span></td><td>19.05.26</td></tr>
+<tr><td>Final app test: scroll through all five beats, check on-chart annotations, verify the 30-second comprehension claim</td><td><span class="pp-tag ta">Aisosa</span></td><td>19.05.26</td></tr>
 <tr><td>Clean up GitHub repo (.gitignore, no tmp files, folder structure tidy)</td><td><span class="pp-tag tv">Vale</span></td><td>19.05.26</td></tr>
 <tr><td>Checklist: app URL, repo link, GitHub Pages docs, slides, everything there?</td><td><span class="pp-tag tt">Thivi</span></td><td>20.05.26</td></tr>
 <tr><td>Moodle submission: all three confirm</td><td><span class="pp-tag tall">All</span></td><td>20.05.26</td></tr>
