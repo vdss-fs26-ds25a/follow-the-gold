@@ -2,7 +2,7 @@
 <p align="center">
   <br> Global Precious Metals Trade and Inflation
   <p align="center">
-  <a href="https://gold-flows.streamlit.app/"><img src="https://img.shields.io/badge/Live_App-Streamlit-red?logo=streamlit" alt="Live App"></a>
+  <a href="https://follow-the-gold-vdss.streamlit.app/"><img src="https://img.shields.io/badge/Live_App-Streamlit-red?logo=streamlit" alt="Live App"></a>
   <a href="https://vdss-fs26-ds25a.github.io/follow-the-gold/"><img src="https://img.shields.io/badge/Documentation-GitHub_Pages-blue?logo=github" alt="Documentation"></a>
 </p>
 </p>
