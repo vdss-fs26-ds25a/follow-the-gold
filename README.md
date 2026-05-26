@@ -9,17 +9,17 @@
 </h1>
 
 
-A single-page scrollytelling narrative answering one question: **when inflation hit in 2022 — the worst wave in forty years — who actually bought the gold?**
+A single-page scrollytelling narrative answering one question: **when inflation hit in 2022, the worst wave in forty years, who actually bought the gold?**
 
-The intuitive answer is "consumers in high-inflation countries". The country-level data, joining UN Comtrade gold-import flows with the World Bank Global Inflation Database, says otherwise: Venezuela (CPI 201 %) imported essentially zero; Zimbabwe (CPI 105 %) imported $77 M; meanwhile Switzerland, China, the UAE, the UK, and India — all low-inflation economies — took roughly two-thirds of global gold imports between them. **China's imports doubled in 2022**, the same year the G7 froze Russia's foreign reserves and the World Gold Council recorded the highest central-bank gold purchases since 1950.
+The intuitive answer is "consumers in high-inflation countries". The country-level data, joining UN Comtrade gold-import flows with the World Bank Global Inflation Database, says otherwise: Venezuela (CPI 201 %) imported essentially zero; Zimbabwe (CPI 105 %) imported $77 M; meanwhile Switzerland, China, the UAE, the UK, and India (all low-inflation economies) took roughly two-thirds of global gold imports between them. **China's imports doubled in 2022**, the same year the G7 froze Russia's foreign reserves and the World Gold Council recorded the highest central-bank gold purchases since 1950.
 
 The app walks a reader through this argument in five beats:
 
 1. **Buy gold.** The cliché and the $541 B global figure for 2022.
 2. **But not in Caracas.** The high-inflation countries did not buy.
 3. **Then who?** Top-eight 2022 importers, coloured by inflation rate.
-4. **China doubled down.** The reveal — China's gold imports, 2017–2024, framed against the Russia/Ukraine reserve freeze.
-5. **The verdict.** Gold's safe-haven role is alive — but it is now the sovereign's hedge against the dollar, not the citizen's hedge against inflation.
+4. **China doubled down.** The reveal: China's gold imports, 2017–2024, framed against the Russia/Ukraine reserve freeze.
+5. **The verdict.** Gold's safe-haven role is alive, but it is now the sovereign's hedge against the dollar, not the citizen's hedge against inflation.
 
 A Phase-1 diagnosis of why the earlier dashboard-style draft was scrapped lives in [`docs/diagnosis.md`](docs/diagnosis.md). The beat-by-beat narrative design is in [`docs/narrative_design.md`](docs/narrative_design.md). Visual encoding, layout, and scrollytelling design rationale are in [`docs/viz_design_report.qmd`](docs/viz_design_report.qmd).
 
@@ -43,10 +43,10 @@ follow-the-gold/
 │   └── country_mapping.py
 ├── deployment/        # Streamlit app (app.py + requirements.txt)
 ├── src/               # Shared utilities
-├── summaries/         # Background research notes feeding the narrative
 └── docs/              # Quarto documentation (submitted artefacts)
     ├── project_charta.qmd
-    └── data_report.qmd
+    ├── data_report.qmd
+    └── summaries/     # Background research notes (not rendered to the site)
 ```
 
 
@@ -90,9 +90,9 @@ The documentation is deployed to GitHub Pages via GitHub Actions on every push t
 
 | Name | Role | Contact |
 |---|---|---|
-| Valentin Schwarz | Data Engineering — pipeline, repo structure | vschwarz@ik.me |
-| Aisosa Omokaro | App Infrastructure — inflation data, Streamlit deployment | aisosashina@gmail.com |
-| Thiveja Thirukumar | Documentation — research, data report, project charter | thiveja.thirukumar@gmail.com |
+| Valentin Schwarz | Data Engineering: pipeline, repo structure | vschwarz@ik.me |
+| Aisosa Omokaro | App Infrastructure: inflation data, Streamlit deployment | aisosashina@gmail.com |
+| Thiveja Thirukumar | Documentation: research, data report, project charter | thiveja.thirukumar@gmail.com |
 
 
 ## License

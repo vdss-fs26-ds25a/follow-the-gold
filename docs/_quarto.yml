@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: build
+  render:
+    - project_charta.qmd
+    - data_report.qmd
 
 lang: en
 

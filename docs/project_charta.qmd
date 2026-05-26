@@ -8,13 +8,13 @@ format:
 
 ## Context and Scope
 
-The cliché has held for decades: when inflation rises, the advice is always the same — buy gold. That advice was put under the strongest test in forty years in 2022, when Headline CPI hit double digits across most of the OECD, surged past 100% in several emerging economies, and the gold price began the climb that would carry it past \$3,000 per ounce in 2024.
+The cliché has held for decades. When inflation rises, the advice is always the same: buy gold. That advice was put under the strongest test in forty years in 2022, when Headline CPI hit double digits across most of the OECD, surged past 100% in several emerging economies, and the gold price began the climb that would carry it past \$3,000 per ounce in 2024.
 
 The project takes a single question seriously:
 
 > **When inflation hit in 2022, who actually bought the gold?**
 
-The question is deliberately phrased as a whodunit. The conventional answer — *consumers in high-inflation countries, hedging their savings* — is something the project's joined UN Comtrade + World Bank inflation dataset can either confirm or disconfirm at the country-year level. As the data report and the narrative-design document show, **the data disconfirms it**. The countries with the highest 2022 inflation (Venezuela, Lebanon, Sudan, Zimbabwe) imported almost no gold; the largest importers (Switzerland, China, the UAE, the UK, India) were almost all low-inflation economies. The project's central reveal sits in one country's data: **China's gold imports doubled in 2022, the same year Russia's foreign reserves were frozen by the G7**.
+The question is deliberately phrased as a whodunit. The conventional answer (consumers in high-inflation countries, hedging their savings) is something the project's joined UN Comtrade and World Bank inflation dataset can either confirm or disconfirm at the country-year level. As the data report shows, **the data disconfirms it**. The countries with the highest 2022 inflation (Venezuela, Lebanon, Sudan, Zimbabwe) imported almost no gold; the largest importers (Switzerland, China, the UAE, the UK, India) were almost all low-inflation economies. The project's central reveal sits in one country's data: **China's gold imports doubled in 2022, the same year Russia's foreign reserves were frozen by the G7**.
 
 The final product is a single-page scrollytelling narrative, built in Streamlit, that walks the reader through the argument in five beats: a setup (the cliché), a disconfirmation (the high-inflation countries did not buy), a pivot (then who did?), a reveal (China doubled its imports in the year of the Russian reserve freeze), and a verdict. The full beat structure and the rationale for each visual choice is documented in the *Visualization Concept* section of this document.
 
@@ -25,7 +25,7 @@ The objectives below are written as **story** outcomes, not as inventory checkli
 - **Drive a reader through one argument in under five minutes.** The reader should understand the central question within 30 seconds and leave with a one-sentence answer they can repeat the next day.
 - **Make the disconfirmation visible.** A reader who scrolls past Beat 2 should *see*, on the chart, that high-inflation countries did not buy gold in 2022.
 - **Land the political-economy reveal in Beat 4.** The China doubling and its 2022 context (Russian reserve freeze, World Gold Council's record 1,136 tons of central-bank purchases) should be legible from the chart and its annotations, without the reader needing to read the prose first.
-- **Commit to a position.** The verdict (Beat 5) is a single, defensible claim — *gold's safe haven is now the sovereign's, not the citizen's* — supported by three specific numbers.
+- **Commit to a position.** The verdict (Beat 5) is a single, defensible claim, *gold's safe haven is now the sovereign's, not the citizen's*, supported by three specific numbers.
 - **Stay reproducible.** Every visible number in the app traces to either the joined dataset described in the Data Report or to an explicit external citation (World Gold Council). No invented insights.
 
 ### Success Criteria
@@ -47,15 +47,15 @@ Price prediction, investment advice, real-time data, individual-investor analysi
 
 ## Stakeholder Analysis
 
-The VDSS instructors are the primary client and assessor — they set the evaluation criteria, run coaching sessions, and assign the grade. The project team of three is responsible for all deliverables while running this alongside seven other modules. ZHAW peers attend the final presentation but have no influence on the grade. After publication, the website may attract a broader audience of finance-curious individuals and professionals, though they have no active role in the project.
+The VDSS instructors are the primary client and assessor. They set the evaluation criteria, run coaching sessions, and assign the grade. The project team of three is responsible for all deliverables while running this alongside seven other modules. ZHAW peers attend the final presentation but have no influence on the grade. After publication, the website may attract a broader audience of finance-curious individuals and professionals, though they have no active role in the project.
 
 In terms of influence and interest: the team sits highest on both axes since they do all the work and care most about the outcome. The instructors have high influence but are more distant from day-to-day decisions. Peers and the general public are low influence across the board.
 
 ## User Analysis
 
-### Persona 1 — Lena Meier (24), Finance-Curious Student
+### Persona 1: Lena Meier (24), Finance-Curious Student
 
-Lena is a 3rd-semester Business Informatics student at ZHAW. She has CHF 5,000 to invest and keeps hearing from friends that gold is "the safest option" — but she's not sure whether to trust that. She has no formal finance training, reads basic charts fine but struggles with scatter plots and correlations, and uses her iPhone 14 as her primary device. She'd visit the website once or twice, explore a bit, maybe share something.
+Lena is a 3rd-semester Business Informatics student at ZHAW. She has CHF 5,000 to invest and keeps hearing from friends that gold is "the safest option", but she's not sure whether to trust that. She has no formal finance training, reads basic charts fine but struggles with scatter plots and correlations, and uses her iPhone 14 as her primary device. She'd visit the website once or twice, explore a bit, maybe share something.
 
 Jobs: understand whether gold is a sensible investment for someone without much capital; be able to talk about it with friends using real data; feel confident she's making an informed decision rather than just following social media.
 
@@ -63,9 +63,9 @@ Pains: financial articles are full of jargon; professional tools like Bloomberg 
 
 Gains: a clear visual answer written for non-experts; interactive features she can explore at her own pace; a concrete verdict at the end she can actually remember.
 
-### Persona 2 — Thomas Brunner (52), Independent Financial Advisor
+### Persona 2: Thomas Brunner (52), Independent Financial Advisor
 
-Thomas runs his own wealth advisory practice in Zürich. He has 20+ years of experience and has recommended a 5–10% gold allocation to clients for years — but he wants neutral, data-backed evidence to support that, not ETF brochures. He reads NZZ and Bloomberg daily, is comfortable with complex charts, and works desktop-first with PowerPoint for client presentations.
+Thomas runs his own wealth advisory practice in Zürich. He has 20+ years of experience and has recommended a 5 to 10% gold allocation to clients for years, but he wants neutral, data-backed evidence to support that, not ETF brochures. He reads NZZ and Bloomberg daily, is comfortable with complex charts, and works desktop-first with PowerPoint for client presentations.
 
 Jobs: find country-level evidence that gold acts as an inflation hedge; extract specific numbers for client slides; show clients something credible and neutral.
 
@@ -77,11 +77,11 @@ Gains: well-designed neutral charts he can screenshot into PowerPoint, with coun
 
 ### Data
 
-Dataset 1 — UN Global Commodity Trade Statistics (Kaggle): ~8.2M rows total, filtered to precious metals (HS codes 7106–7112) gives roughly 10,000–50,000 rows. Period: 1988–2016. Key variables: country, commodity, flow direction (import/export), trade value in USD, weight in kg, year.
+Dataset 1, UN Global Commodity Trade Statistics (Kaggle): ~8.2M rows total, filtered to precious metals (HS codes 7106–7112) gives roughly 10,000 to 50,000 rows. Period: 1988 to 2016. Key variables: country, commodity, flow direction (import/export), trade value in USD, weight in kg, year.
 
-Dataset 2 — World Bank Global Inflation Database (Ha, Kose & Ohnsorge, 2023): ~50,000 rows after reshaping (209 countries × 6 inflation types × 55 years). Period: 1970–2025. Key variables: country, country code, inflation type (Headline CPI, Food CPI, Energy CPI, Core CPI, PPI, GDP Deflator), economy type (Advanced / Emerging / Low-Income), year, inflation rate.
+Dataset 2, World Bank Global Inflation Database (Ha, Kose & Ohnsorge, 2023): ~50,000 rows after reshaping (209 countries × 6 inflation types × 55 years). Period: 1970 to 2025. Key variables: country, country code, inflation type (Headline CPI, Food CPI, Energy CPI, Core CPI, PPI, GDP Deflator), economy type (Advanced / Emerging / Low-Income), year, inflation rate.
 
-The combined dataset joined on country and year will have 6 categorical and 4 numerical variables — well above the course minimums.
+The combined dataset joined on country and year will have 6 categorical and 4 numerical variables, well above the course minimums.
 
 ### Team and Tools
 
@@ -95,7 +95,7 @@ The project runs alongside 7 other modules, so available time per person is limi
 |---|---|---|
 | UN dataset too large to process locally | Medium | Filter to precious metals HS codes immediately; use chunked Pandas reading if needed |
 | Country name mismatches between datasets | High | Join on ISO-3166 codes, not names; build a manual mapping table early |
-| Scrollytelling harder to implement than expected | Medium | Fallback: standard Quarto site with static Plotly charts — still meets all requirements |
+| Scrollytelling harder to implement than expected | Medium | Fallback: standard Quarto site with static Plotly charts, which still meets all requirements |
 | Time pressure from parallel modules | High | Buffer week at end of schedule; cut nice-to-haves before cutting core visualizations |
 | Uneven work distribution | Low | Clear roles from week 1; transparent commit history on GitHub |
 
@@ -196,12 +196,12 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <div class="pp-ph"><div class="pp-title">Phase 3: Build Core Visualizations</div><div class="pp-date">21.04.–27.04.26</div></div>
 <table class="pp-table">
 <tr><th>Task</th><th>Who</th><th>By</th></tr>
-<tr><td>Ch. 1 "Where Does Gold Flow?" — aggregate data, build choropleth, write context text + insight box</td><td><span class="pp-tag tv">Vale</span></td><td>24.04.26</td></tr>
-<tr><td>Ch. 2 "When Inflation Strikes" — prep data, build scatter plot with trend line, write text + insight</td><td><span class="pp-tag tv">Vale</span></td><td>27.04.26</td></tr>
-<tr><td>Ch. 3 "Gold vs. Silver vs. Platinum" — pivot data, build grouped bar chart, write text + insight</td><td><span class="pp-tag ta">Aisosa</span></td><td>24.04.26</td></tr>
-<tr><td>Ch. 4 "The Swiss Connection" — extract Switzerland trade partners, build Sankey, write text + insight</td><td><span class="pp-tag ta">Aisosa</span></td><td>27.04.26</td></tr>
-<tr><td>Intro — animated key metrics (gold price record, inflation peak, trade volume), write hero text</td><td><span class="pp-tag tt">Thivi</span></td><td>24.04.26</td></tr>
-<tr><td>Ch. 5 "The Verdict" — calculate summary numbers, build metric cards, write conclusion text</td><td><span class="pp-tag tt">Thivi</span></td><td>27.04.26</td></tr>
+<tr><td>Ch. 1 "Where Does Gold Flow?": aggregate data, build choropleth, write context text + insight box</td><td><span class="pp-tag tv">Vale</span></td><td>24.04.26</td></tr>
+<tr><td>Ch. 2 "When Inflation Strikes": prep data, build scatter plot with trend line, write text + insight</td><td><span class="pp-tag tv">Vale</span></td><td>27.04.26</td></tr>
+<tr><td>Ch. 3 "Gold vs. Silver vs. Platinum": pivot data, build grouped bar chart, write text + insight</td><td><span class="pp-tag ta">Aisosa</span></td><td>24.04.26</td></tr>
+<tr><td>Ch. 4 "The Swiss Connection": extract Switzerland trade partners, build Sankey, write text + insight</td><td><span class="pp-tag ta">Aisosa</span></td><td>27.04.26</td></tr>
+<tr><td>Intro: animated key metrics (gold price record, inflation peak, trade volume), write hero text</td><td><span class="pp-tag tt">Thivi</span></td><td>24.04.26</td></tr>
+<tr><td>Ch. 5 "The Verdict": calculate summary numbers, build metric cards, write conclusion text</td><td><span class="pp-tag tt">Thivi</span></td><td>27.04.26</td></tr>
 <tr><td>Code review: each person reviews the other two's chapters, leave feedback on GitHub</td><td><span class="pp-tag tall">All</span></td><td>27.04.26</td></tr>
 </table>
 
@@ -261,7 +261,7 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 <tr><th>Task</th><th>Who</th><th>By</th></tr>
 <tr><td>Final app test: click through all chapters, check all filters</td><td><span class="pp-tag ta">Aisosa</span></td><td>19.05.26</td></tr>
 <tr><td>Clean up GitHub repo (.gitignore, no tmp files, folder structure tidy)</td><td><span class="pp-tag tv">Vale</span></td><td>19.05.26</td></tr>
-<tr><td>Checklist: app URL, repo link, GitHub Pages docs, slides — everything there?</td><td><span class="pp-tag tt">Thivi</span></td><td>20.05.26</td></tr>
+<tr><td>Checklist: app URL, repo link, GitHub Pages docs, slides, everything there?</td><td><span class="pp-tag tt">Thivi</span></td><td>20.05.26</td></tr>
 <tr><td>Moodle submission: all three confirm</td><td><span class="pp-tag tall">All</span></td><td>20.05.26</td></tr>
 </table>
 
@@ -271,14 +271,14 @@ Three large numbers in a row (+116%, near-zero, 1,136 tons), each with a single-
 
 ## Roles and Contact Details
 
-**Valentin Schwarz — Data Engineering**\
+**Valentin Schwarz, Data Engineering**\
 Owns the UN trade data pipeline: download, filter to precious metals HS codes, join with inflation data, and save combined CSV. Maintains `pyproject.toml`, README, and repo structure.  
 Contact: vschwarz@ik.me
 
-**Aisosa Omokaro — App Infrastructure**\
+**Aisosa Omokaro, App Infrastructure**\
 Owns the World Bank inflation data: download, reshape from wide to long, and run data quality checks. Sets up the Streamlit app base structure and handles deployment to Streamlit Cloud.  
 Contact: aisosashina@gmail.com
 
-**Thiveja Thirukumar — Documentation**\
+**Thiveja Thirukumar, Documentation**\
 Leads background research and builds the ISO-3166 country code mapping. Manages the data report, proofreads all narrative texts and insight boxes, finalizes the project charter, and coordinates the submission checklist.  
 Contact: thiveja.thirukumar@gmail.com 
