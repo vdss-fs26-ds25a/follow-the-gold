@@ -192,7 +192,7 @@ def style_fig(fig, height=420):
 # ──────────────────────────────────────────────────────────────────────────
 st.markdown("# Follow the Gold")
 st.markdown(
-    '<div class="lede">When inflation hit in 2022 — the worst wave in forty years — the world was supposed to rush into gold. So who actually bought it?</div>',
+    '<div class="lede">When inflation hit in 2022 the world was supposed to rush into gold. So who actually bought it?</div>',
     unsafe_allow_html=True,
 )
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -204,7 +204,7 @@ st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown('<div class="beat-tag">Beat 1 · The promise</div>', unsafe_allow_html=True)
 st.markdown("## Buy gold.")
 st.markdown(
-    '<div class="lede">Every time inflation rises, the advice is the same: buy gold. In 2022, inflation peaked at its highest level in forty years — and gold importers worldwide spent a record <b>$541 billion</b> bringing it across borders. The rule, on the surface, held.</div>',
+    '<div class="lede">Every time inflation rises, the advice is the same: buy gold. In 2022, inflation peaked at its highest level in forty years and gold importers worldwide spent a record <b>$541 billion</b> bringing it across borders. The rule, on the surface, held.</div>',
     unsafe_allow_html=True,
 )
 
@@ -242,7 +242,7 @@ fig1 = style_fig(fig1, height=380)
 st.plotly_chart(fig1, use_container_width=True, config={"displayModeBar": False})
 
 st.markdown(
-    '<div class="caveat">Sum of all reported gold imports across countries. Source: UN Comtrade HS 7108. Gold price changes, ETFs, and central-bank stocks are not in this number — only physical imports across borders.</div>',
+    '<div class="caveat">Sum of all reported gold imports across countries. Source: UN Comtrade HS 7108. Gold price changes, ETFs, and central-bank stocks are not in this number, only physical imports across borders.</div>',
     unsafe_allow_html=True,
 )
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -316,7 +316,7 @@ fig2 = style_fig(fig2, height=480)
 st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
 
 st.markdown(
-    '<div class="caveat">Red bars: 2022 Headline CPI above 20%. Blue bars: below 10%. Trade flows are not the same as ETF investment or jewellery demand — we measure physical gold crossing borders, not gold being hoarded inside a country.</div>',
+    '<div class="caveat">Red bars: 2022 Headline CPI above 20%. Blue bars: below 10%. Trade flows are not the same as ETF investment or jewellery demand. We measure physical gold crossing borders, not gold being hoarded inside a country.</div>',
     unsafe_allow_html=True,
 )
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -328,7 +328,7 @@ st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown('<div class="beat-tag">Beat 3 · Then who?</div>', unsafe_allow_html=True)
 st.markdown("## Then who?")
 st.markdown(
-    '<div class="lede">So who imported the $541 billion of gold the world bought in 2022? At the top of the list: Switzerland, China, the UAE, the UK, India. Five countries took roughly two-thirds of the total. Four of the five had inflation rates of 6% or below — the opposite of what the safe-haven story would predict.</div>',
+    '<div class="lede">So who imported the $541 billion of gold the world bought in 2022? At the top of the list: Switzerland, China, the UAE, the UK, India. Five countries took roughly two-thirds of the total. Four of the five had inflation rates of 6% or below, the opposite of what the safe-haven story would predict.</div>',
     unsafe_allow_html=True,
 )
 
@@ -377,7 +377,7 @@ fig3 = style_fig(fig3, height=420)
 st.plotly_chart(fig3, use_container_width=True, config={"displayModeBar": False})
 
 st.markdown(
-    '<div class="caveat">Five countries — Switzerland, China, UAE, UK, India — together imported about 64% of the world\'s gold in 2022. Most are low-inflation economies. The pattern points away from "consumers fleeing inflation" and toward something else.</div>',
+    '<div class="caveat">Five countries — Switzerland, China, UAE, UK, India together imported about 64% of the world\'s gold in 2022. Most are low-inflation economies. The pattern points away from "consumers fleeing inflation" and toward something else.</div>',
     unsafe_allow_html=True,
 )
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -389,7 +389,7 @@ st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown('<div class="beat-tag">Beat 4 · The reveal</div>', unsafe_allow_html=True)
 st.markdown("## China doubled down.")
 st.markdown(
-    '<div class="lede">China\'s gold imports in 2021: $39 billion. In 2022, the year inflation peaked: <b>$85 billion</b>. A doubling, in one year. That same February, Russia invaded Ukraine — and the United States, the EU, and Japan froze about $300 billion of Russia\'s foreign reserves. The signal to every other central bank was unambiguous: dollar reserves can be switched off. In 2022, central banks worldwide bought <b>1,136 tons of gold</b> — the most since 1950.</div>',
+    '<div class="lede">China\'s gold imports in 2021: $39 billion. In 2022, the year inflation peaked: <b>$85 billion</b>. A doubling, in one year. That same February, Russia invaded Ukraine. The United States, the EU, and Japan froze about $300 billion of Russia\'s foreign reserves. The signal to every other central bank was unambiguous: dollar reserves can be switched off. In 2022, central banks worldwide bought <b>1,136 tons of gold</b>, the most since 1950.</div>',
     unsafe_allow_html=True,
 )
 
@@ -461,14 +461,14 @@ with c2:
     st.markdown('<div class="recap-label">Imported by Venezuela<br>in 2022 (CPI 201%)</div>', unsafe_allow_html=True)
 with c3:
     st.markdown('<div class="recap-num" style="color:#b88a2e">1,136 t</div>', unsafe_allow_html=True)
-    st.markdown('<div class="recap-label">Central-bank gold buying<br>worldwide, 2022 —<br>highest since 1950</div>', unsafe_allow_html=True)
+    st.markdown('<div class="recap-label">Central-bank gold buying<br>worldwide.</div>', unsafe_allow_html=True)
 
 st.markdown(
     '<div class="verdict">"Buy gold when inflation hits" is a story about consumers.<br>The 2022 data isn\'t.</div>',
     unsafe_allow_html=True,
 )
 st.markdown(
-    '<div class="verdict-sub">The people in Caracas and Harare didn\'t buy gold. The central banks in Beijing, Abu Dhabi, and Ankara did. Gold\'s safe-haven role is alive — it is just no longer the citizen\'s hedge against inflation. It is the sovereign\'s hedge against the dollar.</div>',
+    '<div class="verdict-sub">The people in Caracas and Harare didn\'t buy gold. The central banks in Beijing, Abu Dhabi, and Ankara did. Gold\'s safe-haven role is alive, it is just no longer the citizen\'s hedge against inflation. It is the sovereign\'s hedge against the dollar.</div>',
     unsafe_allow_html=True,
 )
 
@@ -478,7 +478,6 @@ st.markdown(
     'Data: UN Comtrade HS 7108 (gold imports, 2017 – 2024) · World Bank Global Inflation Database (Headline CPI). '
     'External citations on this page: World Gold Council, <i>Gold Demand Trends Full Year 2022</i> (central-bank purchase volumes); '
     'public reporting on the February 2022 G7 freeze of Russian foreign reserves. '
-    '<br><br>VDSS FS2026 · Gruppe 3 — Schwarz · Omokaro · Thirukumar'
     '</div>',
     unsafe_allow_html=True,
 )
