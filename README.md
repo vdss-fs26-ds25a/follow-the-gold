@@ -21,7 +21,7 @@ The app walks a reader through this argument in five beats:
 4. **China doubled down.** The reveal: China's gold imports, 2017–2024, framed against the Russia/Ukraine reserve freeze.
 5. **The verdict.** Gold's safe-haven role is alive, but it is now the sovereign's hedge against the dollar, not the citizen's hedge against inflation.
 
-A Phase-1 diagnosis of why the earlier dashboard-style draft was scrapped lives in [`docs/diagnosis.md`](docs/diagnosis.md). The beat-by-beat narrative design is in [`docs/narrative_design.md`](docs/narrative_design.md). Visual encoding, layout, and scrollytelling design rationale are in [`docs/viz_design_report.qmd`](docs/viz_design_report.qmd).
+Full driving question, persona analysis, success criteria, and beat-by-beat visualisation rationale are documented in [`docs/project_charta.qmd`](docs/project_charta.qmd). Data sources, catalogues, build steps, and quality findings are in [`docs/data_report.qmd`](docs/data_report.qmd).
 
 
 ## Data Sources
