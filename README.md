@@ -35,20 +35,18 @@ A Phase-1 diagnosis of why the earlier dashboard-style draft was scrapped lives 
 ## Project Structure
 
 ```
-gruppe3/
-├── data/              # Raw and processed datasets
+follow-the-gold/
+├── data/              # Raw inputs + processed CSV used by the app
 │   ├── raw/
-│   └── processed/
-├── eda/               # Exploratory data analysis scripts
-├── deployment/        # Streamlit app (app.py)
-├── evaluation/        # Evaluation artefacts
-├── viz_design/        # Visual encoding and design explorations
-└── docs/              # Quarto documentation website
+│   ├── processed/
+│   ├── build_dataset.py
+│   └── country_mapping.py
+├── deployment/        # Streamlit app (app.py + requirements.txt)
+├── src/               # Shared utilities
+├── summaries/         # Background research notes feeding the narrative
+└── docs/              # Quarto documentation (submitted artefacts)
     ├── project_charta.qmd
-    ├── data_report.qmd
-    ├── viz_design_report.qmd
-    ├── evaluation.qmd
-    └── deployment.qmd
+    └── data_report.qmd
 ```
 
 
